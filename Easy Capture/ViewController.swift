@@ -10,11 +10,23 @@ import UIKit
 
 class MainViewController: UIViewController {
 
-    let cameraCapture = CameraCapture()
+    private let cameraCapture = CameraCapture()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initCamera()
+        
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
+        doubleTap.numberOfTapsRequired = 2
+        view.addGestureRecognizer(doubleTap)
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    private func initCamera() {
         PermissionManager.shared.requestCameraPermission() { granted  in
             guard granted else {
                 return
@@ -22,6 +34,7 @@ class MainViewController: UIViewController {
             
             self.cameraCapture.start() { success in
                 guard success else {
+                    // handle error here
                     return
                 }
                 
@@ -29,6 +42,10 @@ class MainViewController: UIViewController {
             }
             
         }
+    }
+    
+    @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
+        try? cameraCapture.toggleCameraIfPossible()
     }
     
     

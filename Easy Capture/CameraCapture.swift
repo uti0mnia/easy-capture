@@ -10,39 +10,61 @@ import AVFoundation
 import UIKit
 
 class CameraCapture {
+    
+    public enum CameraCaptureError: Swift.Error {
+        case captureSessionAlreadyRunning
+        case invalidInput
+        case invalidOperation
+        case noCamerasAvailable
+        case unknown
+    }
+    
     public enum CameraPosition {
         case front
         case back
     }
     
-    private var captureSession: AVCaptureSession?
+    private var captureSession = AVCaptureSession()
     
     private var backCamera: AVCaptureDevice?
     private var frontCamera: AVCaptureDevice?
     
     private var currentCameraPosition: CameraPosition?
+    
     private var frontCameraInput: AVCaptureDeviceInput?
     private var backCameraInput: AVCaptureDeviceInput?
     
     private var previewLayer: AVCaptureVideoPreviewLayer?
     
     public func start(completion: @escaping (Bool) -> Void) {
+        
+        let mainQueueCompletion = { success in
+            DispatchQueue.main.async {
+                completion(success)
+            }
+        }
+        
         DispatchQueue(label: "start").async { [weak self] in
             guard let strongSelf = self else {
-                completion(false)
+                mainQueueCompletion(false)
                 return
             }
             
-            strongSelf.captureSession = AVCaptureSession()
-            strongSelf.configureCaptureDevices()?.configureCameraInputs()
-            DispatchQueue.main.async {
-                completion(strongSelf.currentCameraPosition != nil)
+            do {
+                try strongSelf.configureCaptureDevices()
+                try strongSelf.useBackCameraIfPossible()
+                strongSelf.captureSession.startRunning()
+                
+                mainQueueCompletion(true)
+            } catch {
+                print("error starting camera session: \(error.localizedDescription)")
+                mainQueueCompletion(false)
             }
         }
     }
     
     public func display(on view: UIView, withOrientation orientation: AVCaptureVideoOrientation ) {
-        guard let captureSession = self.captureSession, captureSession.isRunning else {
+        guard captureSession.isRunning else {
             print("Capture session nil or not running")
             return
         }
@@ -55,14 +77,30 @@ class CameraCapture {
         self.previewLayer?.frame = view.bounds
     }
     
-    @discardableResult
-    private func configureCaptureDevices() -> CameraCapture? {
+    public func toggleCameraIfPossible() throws {
+        guard let currentCameraPosition = self.currentCameraPosition else {
+            throw CameraCaptureError.invalidOperation
+        }
+        
+        do {
+            switch currentCameraPosition {
+            case .back:
+                try useFrontCameraIfPossible()
+            case .front:
+                try useBackCameraIfPossible()
+            }
+        } catch {
+            throw error
+        }
+    }
+    
+    private func configureCaptureDevices() throws {
         let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
         let cameras = session.devices.flatMap({ $0 })
         
         if cameras.isEmpty {
             print("No capture devices")
-            return nil
+            throw CameraCaptureError.noCamerasAvailable
         }
         
         cameras.forEach() { camera in
@@ -71,7 +109,6 @@ class CameraCapture {
                 frontCamera = camera
             case .back:
                 backCamera = camera
-                
                 do {
                     try camera.lockForConfiguration()
                     camera.focusMode = .continuousAutoFocus
@@ -84,49 +121,55 @@ class CameraCapture {
             }
         }
         
-        return self
     }
     
-    @discardableResult
-    private func configureCameraInputs() -> CameraCapture? {
-        guard let captureSession = captureSession else {
-            print("Nil capture session")
-            return nil
+    private func useCameraIfPossibleInPosition(_ position: CameraPosition) throws {
+        if currentCameraPosition == position {
+            print("camera already in position \(position)")
+            return
         }
         
-        if let backCamera = self.backCamera {
-            do {
-                let input = try AVCaptureDeviceInput(device: backCamera)
-                self.backCameraInput = input
-                if captureSession.canAddInput(input) {
-                    captureSession.addInput(input)
-                }
-                
-                self.currentCameraPosition = .back
-            } catch {
-                print("Couldn't get back camera input \(error.localizedDescription)")
-                return nil
+        guard let camera = (position == .back) ? backCamera : frontCamera else {
+            throw CameraCaptureError.noCamerasAvailable
+        }
+        
+        do {
+            if let currentInput = (currentCameraPosition == .back) ? backCameraInput : frontCameraInput {
+                captureSession.removeInput(currentInput)
             }
             
-        } else if let frontCamera = self.frontCamera {
-            do {
-                let input = try AVCaptureDeviceInput(device: frontCamera)
-                self.frontCameraInput = input
-                if captureSession.canAddInput(input) {
-                    captureSession.addInput(input)
-                }
-                self.currentCameraPosition = .front
-            } catch {
-                print("Couldn't get front camera input \(error.localizedDescription)")
-                return nil
+            let input = try AVCaptureDeviceInput(device: camera)
+            if captureSession.canAddInput(input) {
+                captureSession.addInput(input)
             }
-        } else {
-            print("No cameras available")
-            return nil
+            
+            if position == .front {
+                frontCameraInput = input
+            } else {
+                backCameraInput = input
+            }
+            
+            currentCameraPosition = position
+        } catch {
+            print("Couldn't get back camera input \(error.localizedDescription)")
+            throw CameraCaptureError.invalidInput
         }
-        
-        captureSession.startRunning()
-        return self
+    }
+    
+    private func useBackCameraIfPossible() throws {
+        do {
+            try useCameraIfPossibleInPosition(.back)
+        } catch {
+            throw error
+        }
+    }
+    
+    private func useFrontCameraIfPossible() throws {
+        do {
+            try useCameraIfPossibleInPosition(.front)
+        } catch {
+            throw error
+        }
     }
 }
 
