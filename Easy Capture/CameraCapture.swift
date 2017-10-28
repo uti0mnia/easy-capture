@@ -134,6 +134,8 @@ class CameraCapture {
         }
         
         do {
+            captureSession.beginConfiguration()
+            
             if let currentInput = (currentCameraPosition == .back) ? backCameraInput : frontCameraInput {
                 captureSession.removeInput(currentInput)
             }
@@ -142,6 +144,8 @@ class CameraCapture {
             if captureSession.canAddInput(input) {
                 captureSession.addInput(input)
             }
+            
+            captureSession.commitConfiguration()
             
             if position == .front {
                 frontCameraInput = input
