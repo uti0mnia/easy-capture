@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C96112611FA372B500C1CBC7 /* CameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112601FA372B500C1CBC7 /* CameraCapture.swift */; };
+		C96112631FA3ECB600C1CBC7 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */; };
 		C9A12E9B1FA3706C007FC5CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12E9A1FA3706C007FC5CF /* AppDelegate.swift */; };
 		C9A12E9D1FA3706C007FC5CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12E9C1FA3706C007FC5CF /* ViewController.swift */; };
 		C9A12EA01FA3706C007FC5CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A12E9E1FA3706C007FC5CF /* Main.storyboard */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C96112601FA372B500C1CBC7 /* CameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapture.swift; sourceTree = "<group>"; };
+		C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		C9A12E971FA3706C007FC5CF /* Easy Capture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Easy Capture.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A12E9A1FA3706C007FC5CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9A12E9C1FA3706C007FC5CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +60,8 @@
 			children = (
 				C9A12E9A1FA3706C007FC5CF /* AppDelegate.swift */,
 				C9A12E9C1FA3706C007FC5CF /* ViewController.swift */,
+				C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */,
+				C96112601FA372B500C1CBC7 /* CameraCapture.swift */,
 				C9A12E9E1FA3706C007FC5CF /* Main.storyboard */,
 				C9A12EA11FA3706C007FC5CF /* Assets.xcassets */,
 				C9A12EA31FA3706C007FC5CF /* LaunchScreen.storyboard */,
@@ -137,6 +143,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9A12E9D1FA3706C007FC5CF /* ViewController.swift in Sources */,
+				C96112611FA372B500C1CBC7 /* CameraCapture.swift in Sources */,
+				C96112631FA3ECB600C1CBC7 /* PermissionManager.swift in Sources */,
 				C9A12E9B1FA3706C007FC5CF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,6 +285,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y3RP73GH99;
 				INFOPLIST_FILE = "Easy Capture/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.uti0mnia.Easy-Capture";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -292,6 +301,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y3RP73GH99;
 				INFOPLIST_FILE = "Easy Capture/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.uti0mnia.Easy-Capture";
 				PRODUCT_NAME = "$(TARGET_NAME)";

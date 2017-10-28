@@ -8,18 +8,29 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
 
+    let cameraCapture = CameraCapture()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        PermissionManager.shared.requestCameraPermission() { granted  in
+            guard granted else {
+                return
+            }
+            
+            self.cameraCapture.start() { success in
+                guard success else {
+                    return
+                }
+                
+                self.cameraCapture.display(on: self.view, withOrientation: .portrait)
+            }
+            
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
+    
+    
 }
 
