@@ -7,25 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C96112611FA372B500C1CBC7 /* CameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112601FA372B500C1CBC7 /* CameraCapture.swift */; };
+		358D1CFE1C098C19F590F1EC /* Pods_Easy_Capture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C5B792E75787714152DE69 /* Pods_Easy_Capture.framework */; };
+		C9285DCA1FA5696E00FD38FB /* CapturePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */; };
+		C96112611FA372B500C1CBC7 /* CameraCaptureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112601FA372B500C1CBC7 /* CameraCaptureController.swift */; };
 		C96112631FA3ECB600C1CBC7 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */; };
+		C96112651FA5160D00C1CBC7 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112641FA5160D00C1CBC7 /* Layout.swift */; };
+		C9A0EF071FA790AC008264F0 /* MetalBufferConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */; };
+		C9A0EF091FA79D0B008264F0 /* MetalRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0EF081FA79D0B008264F0 /* MetalRenderingViewController.swift */; };
+		C9A0EF0B1FA79EA2008264F0 /* MetalCameraShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = C9A0EF0A1FA79EA2008264F0 /* MetalCameraShader.metal */; };
 		C9A12E9B1FA3706C007FC5CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12E9A1FA3706C007FC5CF /* AppDelegate.swift */; };
-		C9A12E9D1FA3706C007FC5CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12E9C1FA3706C007FC5CF /* ViewController.swift */; };
+		C9A12E9D1FA3706C007FC5CF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A12E9C1FA3706C007FC5CF /* MainViewController.swift */; };
 		C9A12EA01FA3706C007FC5CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A12E9E1FA3706C007FC5CF /* Main.storyboard */; };
 		C9A12EA21FA3706C007FC5CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9A12EA11FA3706C007FC5CF /* Assets.xcassets */; };
 		C9A12EA51FA3706C007FC5CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A12EA31FA3706C007FC5CF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C96112601FA372B500C1CBC7 /* CameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapture.swift; sourceTree = "<group>"; };
+		7085153FEE2586528F25BF37 /* Pods-Easy Capture.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Easy Capture.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture.debug.xcconfig"; sourceTree = "<group>"; };
+		C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePreviewViewController.swift; sourceTree = "<group>"; };
+		C96112601FA372B500C1CBC7 /* CameraCaptureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureController.swift; sourceTree = "<group>"; };
 		C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		C96112641FA5160D00C1CBC7 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
+		C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBufferConverter.swift; sourceTree = "<group>"; };
+		C9A0EF081FA79D0B008264F0 /* MetalRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderingViewController.swift; sourceTree = "<group>"; };
+		C9A0EF0A1FA79EA2008264F0 /* MetalCameraShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MetalCameraShader.metal; sourceTree = "<group>"; };
 		C9A12E971FA3706C007FC5CF /* Easy Capture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Easy Capture.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A12E9A1FA3706C007FC5CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C9A12E9C1FA3706C007FC5CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C9A12E9C1FA3706C007FC5CF /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C9A12E9F1FA3706C007FC5CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C9A12EA11FA3706C007FC5CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9A12EA41FA3706C007FC5CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9A12EA61FA3706C007FC5CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E225B7EC8046A02A19A3F0A2 /* Pods-Easy Capture.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Easy Capture.release.xcconfig"; path = "Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture.release.xcconfig"; sourceTree = "<group>"; };
+		F4C5B792E75787714152DE69 /* Pods_Easy_Capture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Easy_Capture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +47,58 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				358D1CFE1C098C19F590F1EC /* Pods_Easy_Capture.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		921426B6387A5F680B0DB0A2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7085153FEE2586528F25BF37 /* Pods-Easy Capture.debug.xcconfig */,
+				E225B7EC8046A02A19A3F0A2 /* Pods-Easy Capture.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C9285DC81FA5201100FD38FB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C9A12E9A1FA3706C007FC5CF /* AppDelegate.swift */,
+				C9A12EA11FA3706C007FC5CF /* Assets.xcassets */,
+				C9A12EA31FA3706C007FC5CF /* LaunchScreen.storyboard */,
+				C9A12EA61FA3706C007FC5CF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C9285DCB1FA574C600FD38FB /* CameraCapture */ = {
+			isa = PBXGroup;
+			children = (
+				C96112601FA372B500C1CBC7 /* CameraCaptureController.swift */,
+			);
+			name = CameraCapture;
+			sourceTree = "<group>";
+		};
+		C9A0EF0C1FA7A383008264F0 /* MetalRendering */ = {
+			isa = PBXGroup;
+			children = (
+				C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */,
+				C9A0EF081FA79D0B008264F0 /* MetalRenderingViewController.swift */,
+				C9A0EF0A1FA79EA2008264F0 /* MetalCameraShader.metal */,
+			);
+			name = MetalRendering;
+			sourceTree = "<group>";
+		};
 		C9A12E8E1FA3706C007FC5CF = {
 			isa = PBXGroup;
 			children = (
 				C9A12E991FA3706C007FC5CF /* Easy Capture */,
 				C9A12E981FA3706C007FC5CF /* Products */,
+				921426B6387A5F680B0DB0A2 /* Pods */,
+				FAC80A8D857EA6738B45FF84 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,16 +113,24 @@
 		C9A12E991FA3706C007FC5CF /* Easy Capture */ = {
 			isa = PBXGroup;
 			children = (
-				C9A12E9A1FA3706C007FC5CF /* AppDelegate.swift */,
-				C9A12E9C1FA3706C007FC5CF /* ViewController.swift */,
+				C9A12E9C1FA3706C007FC5CF /* MainViewController.swift */,
+				C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */,
+				C9A0EF0C1FA7A383008264F0 /* MetalRendering */,
+				C96112641FA5160D00C1CBC7 /* Layout.swift */,
 				C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */,
-				C96112601FA372B500C1CBC7 /* CameraCapture.swift */,
+				C9285DCB1FA574C600FD38FB /* CameraCapture */,
 				C9A12E9E1FA3706C007FC5CF /* Main.storyboard */,
-				C9A12EA11FA3706C007FC5CF /* Assets.xcassets */,
-				C9A12EA31FA3706C007FC5CF /* LaunchScreen.storyboard */,
-				C9A12EA61FA3706C007FC5CF /* Info.plist */,
+				C9285DC81FA5201100FD38FB /* Supporting Files */,
 			);
 			path = "Easy Capture";
+			sourceTree = "<group>";
+		};
+		FAC80A8D857EA6738B45FF84 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4C5B792E75787714152DE69 /* Pods_Easy_Capture.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -77,9 +140,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9A12EA91FA3706C007FC5CF /* Build configuration list for PBXNativeTarget "Easy Capture" */;
 			buildPhases = (
+				F3D857DC3EC99F44FB00ACA0 /* [CP] Check Pods Manifest.lock */,
 				C9A12E931FA3706C007FC5CF /* Sources */,
 				C9A12E941FA3706C007FC5CF /* Frameworks */,
 				C9A12E951FA3706C007FC5CF /* Resources */,
+				C5D85F9FC3D3C0048381EACC /* [CP] Embed Pods Frameworks */,
+				3B246050C826AD73DEF2DFA8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -137,13 +203,72 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3B246050C826AD73DEF2DFA8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C5D85F9FC3D3C0048381EACC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F3D857DC3EC99F44FB00ACA0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Easy Capture-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C9A12E931FA3706C007FC5CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A12E9D1FA3706C007FC5CF /* ViewController.swift in Sources */,
-				C96112611FA372B500C1CBC7 /* CameraCapture.swift in Sources */,
+				C9A12E9D1FA3706C007FC5CF /* MainViewController.swift in Sources */,
+				C9A0EF091FA79D0B008264F0 /* MetalRenderingViewController.swift in Sources */,
+				C96112611FA372B500C1CBC7 /* CameraCaptureController.swift in Sources */,
+				C9A0EF071FA790AC008264F0 /* MetalBufferConverter.swift in Sources */,
+				C9A0EF0B1FA79EA2008264F0 /* MetalCameraShader.metal in Sources */,
+				C9285DCA1FA5696E00FD38FB /* CapturePreviewViewController.swift in Sources */,
+				C96112651FA5160D00C1CBC7 /* Layout.swift in Sources */,
 				C96112631FA3ECB600C1CBC7 /* PermissionManager.swift in Sources */,
 				C9A12E9B1FA3706C007FC5CF /* AppDelegate.swift in Sources */,
 			);
@@ -280,6 +405,7 @@
 		};
 		C9A12EAA1FA3706C007FC5CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7085153FEE2586528F25BF37 /* Pods-Easy Capture.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -296,6 +422,7 @@
 		};
 		C9A12EAB1FA3706C007FC5CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E225B7EC8046A02A19A3F0A2 /* Pods-Easy Capture.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

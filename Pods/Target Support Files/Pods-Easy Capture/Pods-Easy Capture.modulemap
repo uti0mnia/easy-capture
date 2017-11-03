@@ -1,0 +1,6 @@
+framework module Pods_Easy_Capture {
+  umbrella header "Pods-Easy Capture-umbrella.h"
+
+  export *
+  module * { export * }
+}

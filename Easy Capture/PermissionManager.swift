@@ -8,6 +8,7 @@
 
 import Foundation
 import AVFoundation
+import Photos
 
 class PermissionManager {
     
@@ -15,7 +16,7 @@ class PermissionManager {
     
     private init() {}
     
-    public func requestCameraPermission(completion: @escaping (Bool) -> Void) {
+    public func cameraPermission(completion: @escaping (Bool) -> Void) {
         if AVCaptureDevice.authorizationStatus(for: .video) == .notDetermined {
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 completion(granted)
@@ -24,6 +25,16 @@ class PermissionManager {
         }
         
         completion(AVCaptureDevice.authorizationStatus(for: .video) == .authorized)
+    }
+    
+    public func photoPermission(completion: @escaping (Bool) -> Void) {
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.notDetermined {
+            PHPhotoLibrary.requestAuthorization() { status in
+                completion(status == .authorized)
+            }
+        }
+        
+        completion(PHPhotoLibrary.authorizationStatus() == .authorized)
     }
     
 }
