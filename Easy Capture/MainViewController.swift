@@ -13,6 +13,12 @@ class MainViewController: MetalCaptureViewController {
 
     private var recordButton: UIButton?
     
+    private var capturePreviewVC = CapturePreviewViewController()
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,10 +27,6 @@ class MainViewController: MetalCaptureViewController {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
         doubleTap.numberOfTapsRequired = 2
         view.addGestureRecognizer(doubleTap)
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
     }
     
     private func initVisuals() {
@@ -44,7 +46,7 @@ class MainViewController: MetalCaptureViewController {
     }
     
     @objc private func capturePicture(_ sender: UIButton) {
-//        cameraController.captureImage()
+        
     }
     
 }

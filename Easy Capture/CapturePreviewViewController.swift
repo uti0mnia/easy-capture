@@ -10,14 +10,12 @@ import UIKit
 
 class CapturePreviewViewController: UIViewController {
     
-    private(set) var imageView = UIImageView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageView.contentMode = .scaleAspectFit
-        imageView.frame = view.bounds
-        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
     }
     
     

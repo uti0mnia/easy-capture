@@ -153,7 +153,7 @@ class MetalCaptureSession: NSObject, AVCaptureVideoDataOutputSampleBufferDelegat
     }
     
     public func captureImage() {
-        // nothing for now.
+        
     }
     
     private func initCaptureDevices() throws {
@@ -195,9 +195,7 @@ class MetalCaptureSession: NSObject, AVCaptureVideoDataOutputSampleBufferDelegat
         outputData.setSampleBufferDelegate(self, queue: captureQueue)
         
         if captureSession.canAddOutput(outputData) {
-            captureQueue.async {
-                self.outputData = outputData
-            }
+            self.outputData = outputData
         }
     }
     

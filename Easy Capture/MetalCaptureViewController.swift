@@ -13,7 +13,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCaptur
     
     private var semaphore = DispatchSemaphore(value: 1)
     
-    private var texture: MTLTexture?
+    private(set) var texture: MTLTexture?
     private var metalView: MTKView?
     
     private var device = MTLCreateSystemDefaultDevice()
@@ -81,6 +81,10 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCaptur
         }
     }
     
+    public func didRender(texture: MTLTexture) {
+        // for subclasses
+    }
+    
     // MARK: - MTKViewDelegate
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -122,6 +126,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCaptur
             guard let strongSelf = self else {
                 return
             }
+            self?.didRender(texture: texture)
             strongSelf.semaphore.signal()
         }
         
