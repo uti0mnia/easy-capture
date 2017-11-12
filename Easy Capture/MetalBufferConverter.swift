@@ -7,15 +7,16 @@
 //
 
 import AVFoundation
+import Accelerate
 import Metal
 
-protocol MetalBufferConverterDelegate: class {
-    func metalBufferConverter(_ metalBufferConverter: MetalBufferConverter, didCreateTexture texture: MTLTexture)
-}
-
-class MetalBufferConverter: NSObject, CameraCaptureControllerDelegate {
+class MetalBufferConverter: NSObject {
     
-    private let cameraController = CameraCaptureController()
+    public enum MetalBufferConverterError: Swift.Error {
+        case failedToGetTextureCache
+        case failedToGetImageBuffer
+        case failedToGetImageTexture
+    }
 
     private var textureCache: CVMetalTextureCache?
     private var imageTexture: CVMetalTexture?
@@ -24,8 +25,6 @@ class MetalBufferConverter: NSObject, CameraCaptureControllerDelegate {
     
     private let pixelFormat = MTLPixelFormat.rgba32Uint
     
-    public weak var delegate: MetalBufferConverterDelegate?
-    
     override init() {
         super.init()
         
@@ -33,43 +32,29 @@ class MetalBufferConverter: NSObject, CameraCaptureControllerDelegate {
             print("Unable to get Metal texture cache")
             return
         }
-        
-        cameraController.delegate = self
     }
     
-    public func startCapturing(completion: @escaping (Bool) -> Void) {
-        cameraController.start(completion: { completion($0) })
-    }
-    
-    // MARK: - CameraCaptureControllerDelegate
-    
-    func cameraCaptureController(_ cameraCaptureController: CameraCaptureController, didRecieveSampleBuffer photoSampleBuffer: CMSampleBuffer?, withPreview previewSampleBuffer: CMSampleBuffer?, error: Error?) {
-        
-    }
-    
-    func cameraCaptureController(_ cameraCaptureController: CameraCaptureController, didReciveVideBuffer buffer: CMSampleBuffer?) {
-        guard let buffer = buffer, let imageBuffer = CMSampleBufferGetImageBuffer(buffer) else {
-            print("Unable to get imageBuffer from CMSampleBuffer")
-            return
-        }
-        
+    public func getTexture(sampleBuffer: CMSampleBuffer, planeIndex: Int = 0, pixelFormat: MTLPixelFormat = .bgra8Unorm) throws -> MTLTexture {
         guard let textureCache = textureCache else {
-            print("Texture cache is nil")
-            return
+            throw MetalBufferConverterError.failedToGetTextureCache
+        }
+        guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            throw MetalBufferConverterError.failedToGetImageBuffer
         }
         
-        let width = CVPixelBufferGetWidth(imageBuffer)
-        let height = CVPixelBufferGetHeight(imageBuffer)
-        let planeIndex = 0
+        let isPlanar = CVPixelBufferIsPlanar(imageBuffer)
+        let width = isPlanar ? CVPixelBufferGetWidthOfPlane(imageBuffer, planeIndex) : CVPixelBufferGetWidth(imageBuffer)
+        let height = isPlanar ? CVPixelBufferGetHeightOfPlane(imageBuffer, planeIndex) : CVPixelBufferGetHeight(imageBuffer)
+        
+        var imageTexture: CVMetalTexture?
+        
         let result = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, textureCache, imageBuffer, nil, pixelFormat, width, height, planeIndex, &imageTexture)
         
         guard let unwrappedImageTexture = imageTexture, let texture = CVMetalTextureGetTexture(unwrappedImageTexture), result == kCVReturnSuccess else {
-            print("Problem getting texted from imageTexture")
-            return
+            throw MetalBufferConverterError.failedToGetImageTexture
         }
         
-        delegate?.metalBufferConverter(self, didCreateTexture: texture)
-        
+        return texture
     }
     
 }

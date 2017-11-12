@@ -9,7 +9,8 @@
 import MetalKit
 import UIKit
 
-class MetalRenderingViewController: UIViewController, MTKViewDelegate, MetalBufferConverterDelegate {
+class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCaptureSessionDelegate {
+    
     private var semaphore = DispatchSemaphore(value: 1)
     
     private var texture: MTLTexture?
@@ -18,15 +19,28 @@ class MetalRenderingViewController: UIViewController, MTKViewDelegate, MetalBuff
     private var device = MTLCreateSystemDefaultDevice()
     private var renderPipelineState: MTLRenderPipelineState?
     
-    private var metalBufferConverter = MetalBufferConverter()
+    private(set) var metalCaptureSession = MetalCaptureSession()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        metalBufferConverter.delegate = self
-        
         initMetalView()
         initRenderPipelineState()
+        
+        
+        PermissionManager.shared.cameraPermission() { granted in
+            guard granted else {
+                print("no access to camera")
+                return
+            }
+            
+            self.metalCaptureSession.start() { success in
+                guard success else {
+                    return
+                }
+            }
+            self.metalCaptureSession.delegate = self
+        }
     }
     
     override func loadView() {
@@ -79,12 +93,11 @@ class MetalRenderingViewController: UIViewController, MTKViewDelegate, MetalBuff
         autoreleasepool {
             guard let texture = texture, let device = device, let commandBuffer = device.makeCommandQueue()?.makeCommandBuffer() else {
                 print("texture and/or device is nil, can't draw")
-                _ = semaphore.signal()
+                semaphore.signal()
                 return
             }
             
             render(texture, withCommandBuffer: commandBuffer, device: device)
-            _ = semaphore.signal()
         }
     }
     
@@ -93,7 +106,8 @@ class MetalRenderingViewController: UIViewController, MTKViewDelegate, MetalBuff
             let currentDrawable = metalView?.currentDrawable,
             let renderPipelineState = renderPipelineState,
             let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor) else {
-            return
+                semaphore.signal()
+                return
         }
         
         encoder.pushDebugGroup("RenderFrame")
@@ -103,13 +117,21 @@ class MetalRenderingViewController: UIViewController, MTKViewDelegate, MetalBuff
         encoder.popDebugGroup()
         encoder.endEncoding()
         
+        // Called after the command buffer is scheduled
+        commandBuffer.addScheduledHandler { [weak self] (buffer) in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.semaphore.signal()
+        }
+        
         commandBuffer.present(currentDrawable)
         commandBuffer.commit()
     }
     
-    // MARK: - MetalBufferConverterDelegate
+    // MARK: - MetalCaptureSessionDelegate
     
-    func metalBufferConverter(_ metalBufferConverter: MetalBufferConverter, didCreateTexture texture: MTLTexture) {
+    func metalCaptureSession(_ metalCaptureSession: MetalCaptureSession, didReciveBufferAsTexture texture: MTLTexture) {
         self.texture = texture
     }
 }

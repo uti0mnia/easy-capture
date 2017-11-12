@@ -9,16 +9,13 @@
 import UIKit
 import AVFoundation
 
-class MainViewController: UIViewController {
-
-    private let cameraController = CameraCaptureController()
+class MainViewController: MetalCaptureViewController {
 
     private var recordButton: UIButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initCamera()
         initVisuals()
         
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
@@ -28,17 +25,6 @@ class MainViewController: UIViewController {
     
     override var prefersStatusBarHidden: Bool {
         return true
-    }
-    
-    private func initCamera() {
-        PermissionManager.shared.cameraPermission() { granted  in
-            guard granted else {
-                return
-            }
-            
-            
-            
-        }
     }
     
     private func initVisuals() {
@@ -54,17 +40,11 @@ class MainViewController: UIViewController {
     }
     
     @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-        try? cameraController.toggleCameraIfPossible()
+        try? metalCaptureSession.toggleCameraIfPossible()
     }
     
     @objc private func capturePicture(_ sender: UIButton) {
-        cameraController.captureImage()
-    }
-    
-    // MARK: - CameraCaptureControllerDelegate
-    
-    func cameraCaptureController(_ cameraCaptureController: CameraCaptureController, didRecieveSampleBuffer photoSampleBuffer: CMSampleBuffer?, withPreview previewSampleBuffer: CMSampleBuffer?, error: Error?) {
-        
+//        cameraController.captureImage()
     }
     
 }
