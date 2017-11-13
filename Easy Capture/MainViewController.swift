@@ -13,7 +13,7 @@ class MainViewController: MetalCaptureViewController {
 
     private var recordButton: UIButton?
     
-    private var capturePreviewVC = CapturePreviewViewController()
+    lazy private var capturePreviewVC = CapturePreviewViewController()
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -46,7 +46,17 @@ class MainViewController: MetalCaptureViewController {
     }
     
     @objc private func capturePicture(_ sender: UIButton) {
+        // TODO - move to class + use different colour types
+        let colourspace = CGColorSpaceCreateDeviceRGB()
+        guard let texture = self.texture, let ciimage = CIImage(mtlTexture: texture, options: [kCIImageColorSpace: colourspace]) else {
+            print("Couldn't create ciimage from texture")
+            return
+        }
         
+        // TODO - switch orientation
+        capturePreviewVC.imageView.image = UIImage(ciImage: ciimage)
+        
+        present(capturePreviewVC, animated: false, completion: nil)
     }
     
 }
