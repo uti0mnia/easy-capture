@@ -47,14 +47,13 @@ class MainViewController: MetalCaptureViewController {
     
     @objc private func capturePicture(_ sender: UIButton) {
         // TODO - move to class + use different colour types
-        let colourspace = CGColorSpaceCreateDeviceRGB()
-        guard let texture = self.texture, let ciimage = CIImage(mtlTexture: texture, options: [kCIImageColorSpace: colourspace]) else {
-            print("Couldn't create ciimage from texture")
+        guard let texture = self.texture, let cgimage = MetalTextureConverter.shared.convertToCGImage(texture) else {
+            print("Couldn't create cgimage from texture")
             return
         }
         
-        // TODO - switch orientation
-        capturePreviewVC.imageView.image = UIImage(ciImage: ciimage)
+        let image = UIImage(cgImage: cgimage)
+        capturePreviewVC.imageView.image = image
         
         present(capturePreviewVC, animated: false, completion: nil)
     }

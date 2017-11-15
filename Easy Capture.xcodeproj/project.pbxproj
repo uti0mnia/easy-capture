@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		358D1CFE1C098C19F590F1EC /* Pods_Easy_Capture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C5B792E75787714152DE69 /* Pods_Easy_Capture.framework */; };
+		C92469561FBCBF6300C33A4A /* MetalTextureConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469551FBCBF6300C33A4A /* MetalTextureConverter.swift */; };
+		C92469591FBCD5CE00C33A4A /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469571FBCD5CE00C33A4A /* ToastView.swift */; };
+		C924695A1FBCD5CE00C33A4A /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469581FBCD5CE00C33A4A /* ToastManager.swift */; };
+		C924695C1FBCD5EA00C33A4A /* UIView+Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C924695B1FBCD5EA00C33A4A /* UIView+Shadow.swift */; };
+		C92469661FBCD6C300C33A4A /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469651FBCD6C300C33A4A /* Fonts.swift */; };
+		C92469681FBCD6D300C33A4A /* Colours.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469671FBCD6D300C33A4A /* Colours.swift */; };
 		C9285DCA1FA5696E00FD38FB /* CapturePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */; };
 		C96112611FA372B500C1CBC7 /* MetalCaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112601FA372B500C1CBC7 /* MetalCaptureSession.swift */; };
 		C96112631FA3ECB600C1CBC7 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */; };
@@ -24,6 +30,12 @@
 
 /* Begin PBXFileReference section */
 		7085153FEE2586528F25BF37 /* Pods-Easy Capture.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Easy Capture.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture.debug.xcconfig"; sourceTree = "<group>"; };
+		C92469551FBCBF6300C33A4A /* MetalTextureConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalTextureConverter.swift; sourceTree = "<group>"; };
+		C92469571FBCD5CE00C33A4A /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		C92469581FBCD5CE00C33A4A /* ToastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
+		C924695B1FBCD5EA00C33A4A /* UIView+Shadow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Shadow.swift"; sourceTree = "<group>"; };
+		C92469651FBCD6C300C33A4A /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		C92469671FBCD6D300C33A4A /* Colours.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colours.swift; sourceTree = "<group>"; };
 		C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePreviewViewController.swift; sourceTree = "<group>"; };
 		C96112601FA372B500C1CBC7 /* MetalCaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalCaptureSession.swift; sourceTree = "<group>"; };
 		C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
@@ -63,6 +75,50 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		C924695D1FBCD5F200C33A4A /* Camera View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C9A12E9C1FA3706C007FC5CF /* MainViewController.swift */,
+				C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */,
+			);
+			name = "Camera View Controllers";
+			sourceTree = "<group>";
+		};
+		C924695F1FBCD60D00C33A4A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C924695B1FBCD5EA00C33A4A /* UIView+Shadow.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		C92469601FBCD61700C33A4A /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				C92469571FBCD5CE00C33A4A /* ToastView.swift */,
+				C92469581FBCD5CE00C33A4A /* ToastManager.swift */,
+			);
+			name = Toast;
+			sourceTree = "<group>";
+		};
+		C92469611FBCD64D00C33A4A /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				C92469671FBCD6D300C33A4A /* Colours.swift */,
+				C92469651FBCD6C300C33A4A /* Fonts.swift */,
+				C96112641FA5160D00C1CBC7 /* Layout.swift */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
+		C92469621FBCD66000C33A4A /* Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */,
+			);
+			name = Permissions;
+			sourceTree = "<group>";
+		};
 		C9285DC81FA5201100FD38FB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +135,7 @@
 			children = (
 				C96112601FA372B500C1CBC7 /* MetalCaptureSession.swift */,
 				C9A0EF081FA79D0B008264F0 /* MetalCaptureViewController.swift */,
+				C92469551FBCBF6300C33A4A /* MetalTextureConverter.swift */,
 				C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */,
 				C9A0EF0A1FA79EA2008264F0 /* MetalCameraShader.metal */,
 			);
@@ -106,12 +163,13 @@
 		C9A12E991FA3706C007FC5CF /* Easy Capture */ = {
 			isa = PBXGroup;
 			children = (
-				C9A12E9C1FA3706C007FC5CF /* MainViewController.swift */,
-				C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */,
-				C9A0EF0C1FA7A383008264F0 /* Metal */,
-				C96112641FA5160D00C1CBC7 /* Layout.swift */,
-				C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */,
 				C9A12E9E1FA3706C007FC5CF /* Main.storyboard */,
+				C92469611FBCD64D00C33A4A /* Constants */,
+				C924695D1FBCD5F200C33A4A /* Camera View Controllers */,
+				C9A0EF0C1FA7A383008264F0 /* Metal */,
+				C92469601FBCD61700C33A4A /* Toast */,
+				C92469621FBCD66000C33A4A /* Permissions */,
+				C924695F1FBCD60D00C33A4A /* Extensions */,
 				C9285DC81FA5201100FD38FB /* Supporting Files */,
 			);
 			path = "Easy Capture";
@@ -218,11 +276,15 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -254,14 +316,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C92469661FBCD6C300C33A4A /* Fonts.swift in Sources */,
+				C92469681FBCD6D300C33A4A /* Colours.swift in Sources */,
 				C9A12E9D1FA3706C007FC5CF /* MainViewController.swift in Sources */,
 				C9A0EF091FA79D0B008264F0 /* MetalCaptureViewController.swift in Sources */,
+				C924695C1FBCD5EA00C33A4A /* UIView+Shadow.swift in Sources */,
 				C96112611FA372B500C1CBC7 /* MetalCaptureSession.swift in Sources */,
+				C924695A1FBCD5CE00C33A4A /* ToastManager.swift in Sources */,
 				C9A0EF071FA790AC008264F0 /* MetalBufferConverter.swift in Sources */,
 				C9A0EF0B1FA79EA2008264F0 /* MetalCameraShader.metal in Sources */,
 				C9285DCA1FA5696E00FD38FB /* CapturePreviewViewController.swift in Sources */,
+				C92469591FBCD5CE00C33A4A /* ToastView.swift in Sources */,
 				C96112651FA5160D00C1CBC7 /* Layout.swift in Sources */,
 				C96112631FA3ECB600C1CBC7 /* PermissionManager.swift in Sources */,
+				C92469561FBCBF6300C33A4A /* MetalTextureConverter.swift in Sources */,
 				C9A12E9B1FA3706C007FC5CF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

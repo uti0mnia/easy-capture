@@ -32,9 +32,9 @@ class PermissionManager {
             PHPhotoLibrary.requestAuthorization() { status in
                 completion(status == .authorized)
             }
+        } else {
+            completion(PHPhotoLibrary.authorizationStatus() == .authorized)
         }
-        
-        completion(PHPhotoLibrary.authorizationStatus() == .authorized)
     }
     
 }

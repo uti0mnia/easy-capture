@@ -34,7 +34,7 @@ class MetalBufferConverter: NSObject {
         }
     }
     
-    public func getTexture(sampleBuffer: CMSampleBuffer, planeIndex: Int = 0, pixelFormat: MTLPixelFormat = .bgra8Unorm) throws -> MTLTexture {
+    public func getTexture(sampleBuffer: CMSampleBuffer, planeIndex: Int = 0) throws -> MTLTexture {
         guard let textureCache = textureCache else {
             throw MetalBufferConverterError.failedToGetTextureCache
         }
@@ -48,7 +48,7 @@ class MetalBufferConverter: NSObject {
         
         var imageTexture: CVMetalTexture?
         
-        let result = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, textureCache, imageBuffer, nil, pixelFormat, width, height, planeIndex, &imageTexture)
+        let result = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, textureCache, imageBuffer, nil, .bgra8Unorm, width, height, planeIndex, &imageTexture)
         
         guard let unwrappedImageTexture = imageTexture, let texture = CVMetalTextureGetTexture(unwrappedImageTexture), result == kCVReturnSuccess else {
             throw MetalBufferConverterError.failedToGetImageTexture
