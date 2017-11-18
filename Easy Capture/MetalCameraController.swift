@@ -69,7 +69,6 @@ class MetalCameraController: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
     private let tempURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("movie.mov")
     private var assetWriter: AVAssetWriter?
     private var videoAssetWriter: AVAssetWriterInput?
-    private var latestBufferTime: CMTime?
     
     private var isRecording = false
     
@@ -162,19 +161,8 @@ class MetalCameraController: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
             throw error
         }
         
-        // won't actually ever fail
-        guard let assetWriter = self.assetWriter else {
-            return
-        }
-        
-        guard assetWriter.startWriting() else {
-            print("assetWriter couldn't start writing: \(assetWriter.error?.localizedDescription ?? "no error")")
-            print("assetWriter status: \(assetWriter.status.rawValue)")
-            return
-        }
-        assetWriter.startSession(atSourceTime: latestBufferTime ?? kCMTimeZero)
-        outputData?.alwaysDiscardsLateVideoFrames = false // shouldn't discard them when recording
         isRecording = true
+        
     }
     
     public func stopRecording() {
@@ -194,7 +182,6 @@ class MetalCameraController: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
             assetWriter.finishWriting {
                 currentThreadCall()
             }
-            self.outputData?.alwaysDiscardsLateVideoFrames = true
         }
     }
     
@@ -235,7 +222,7 @@ class MetalCameraController: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
         ]
         
         // we might not want to do this for recording
-        outputData.alwaysDiscardsLateVideoFrames = true
+        outputData.alwaysDiscardsLateVideoFrames = false
         outputData.setSampleBufferDelegate(self, queue: captureQueue)
         
         if captureSession.canAddOutput(outputData) {
@@ -290,15 +277,34 @@ class MetalCameraController: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
         }
     }
     
+    private func write(_ sampleBuffer: CMSampleBuffer) {
+        guard isRecording, let assetWriter = self.assetWriter, let videoAssetWriter = self.videoAssetWriter else {
+            return
+        }
+        
+        guard [AVAssetWriterStatus.unknown, AVAssetWriterStatus.writing].contains(assetWriter.status) else {
+            return
+        }
+        
+        if assetWriter.status == .unknown {
+            if !assetWriter.startWriting() {
+                print("assertWriter error start writing: \(assetWriter.error?.localizedDescription ?? "")")
+                return
+            }
+            assetWriter.startSession(atSourceTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
+        }
+        
+        if videoAssetWriter.isReadyForMoreMediaData {
+            videoAssetWriter.append(sampleBuffer)
+        }
+    }
+    
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         // apply filtering to sample buffer if needed
-        latestBufferTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
         assetWriterQueue.async {
-            if self.isRecording && (self.videoAssetWriter?.isReadyForMoreMediaData ?? false) {
-                self.videoAssetWriter?.append(sampleBuffer)
-            }
+            self.write(sampleBuffer)
         }
         
         do {
