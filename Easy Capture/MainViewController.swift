@@ -13,6 +13,8 @@ class MainViewController: MetalCaptureViewController {
 
     private var recordButton: UIButton?
     
+    var isRecording = false
+    
     lazy private var capturePreviewVC = CapturePreviewViewController()
     
     override var prefersStatusBarHidden: Bool {
@@ -42,21 +44,26 @@ class MainViewController: MetalCaptureViewController {
     }
     
     @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-        try? metalCaptureSession.toggleCameraIfPossible()
+        try? metalCameraController.toggleCameraIfPossible()
     }
     
     @objc private func capturePicture(_ sender: UIButton) {
-        // TODO - move to class + use different colour types
-        guard let texture = self.texture, let cgimage = MetalTextureConverter.shared.convertToCGImage(texture) else {
-            print("Couldn't create cgimage from texture")
-            return
-        }
+//        // TODO - move to class + use different colour types
+//        guard let texture = self.texture, let cgimage = MetalTextureConverter.shared.convertToCGImage(texture) else {
+//            print("Couldn't create cgimage from texture")
+//            return
+//        }
+//
+//        let image = UIImage(cgImage: cgimage)
+//        capturePreviewVC.imageView.image = image
+//
+//        present(capturePreviewVC, animated: false, completion: nil)
         
-        let image = UIImage(cgImage: cgimage)
-        capturePreviewVC.imageView.image = image
-        
-        present(capturePreviewVC, animated: false, completion: nil)
+        isRecording ? metalCameraController.stopRecording() : try? metalCameraController.startRecording()
+        isRecording = !isRecording
     }
+    
+    
     
 }
 

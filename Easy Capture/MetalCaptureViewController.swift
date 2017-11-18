@@ -8,8 +8,9 @@
 
 import MetalKit
 import UIKit
+import Photos
 
-class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCaptureSessionDelegate {
+class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCameraControllerDelegate {
     
     private var semaphore = DispatchSemaphore(value: 1)
     
@@ -19,7 +20,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCaptur
     private var device = MTLCreateSystemDefaultDevice()
     private var renderPipelineState: MTLRenderPipelineState?
     
-    private(set) var metalCaptureSession = MetalCaptureSession()
+    private(set) var metalCameraController = MetalCameraController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +35,12 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCaptur
                 return
             }
             
-            self.metalCaptureSession.start() { success in
+            self.metalCameraController.start() { success in
                 guard success else {
                     return
                 }
             }
-            self.metalCaptureSession.delegate = self
+            self.metalCameraController.delegate = self
         }
     }
     
@@ -136,8 +137,22 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCaptur
     
     // MARK: - MetalCaptureSessionDelegate
     
-    func metalCaptureSession(_ metalCaptureSession: MetalCaptureSession, didReciveBufferAsTexture texture: MTLTexture) {
+    func metalCameraController(_ metalCameraController: MetalCameraController, didReciveBufferAsTexture texture: MTLTexture) {
         self.texture = texture
+    }
+    
+    func metalCameraController(_ metalCameraController: MetalCameraController, didFinishRecordingVideoAtURL url: URL) {
+        PermissionManager.shared.photoPermission() { granted in
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url.absoluteURL)
+            }) { success, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    print("success!")
+                }
+            }
+        }
     }
 }
 

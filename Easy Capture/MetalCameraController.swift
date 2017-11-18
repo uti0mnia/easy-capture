@@ -9,12 +9,12 @@
 import AVFoundation
 import UIKit
 
-protocol MetalCaptureSessionDelegate: class {
-    func metalCaptureSession(_ metalCaptureSession: MetalCaptureSession, didReciveBufferAsTexture texture: MTLTexture)
+protocol MetalCameraControllerDelegate: class {
+    func metalCameraController(_ metalCameraController: MetalCameraController, didReciveBufferAsTexture texture: MTLTexture)
+    func metalCameraController(_ metalCameraController: MetalCameraController, didFinishRecordingVideoAtURL url: URL)
 }
 
-class MetalCaptureSession: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
-    
+class MetalCameraController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     public enum CameraCaptureError: Swift.Error {
         case captureSessionNotRunning
         case captureSessionAlreadyRunning
@@ -24,7 +24,13 @@ class MetalCaptureSession: NSObject, AVCaptureVideoDataOutputSampleBufferDelegat
         case unknown
     }
     
-    public enum CameraPosition {
+    public enum VideoRecordingError: Swift.Error {
+        case noOutputData
+        case failedToCreateAVAssetWriter
+        case cannotAddAVAssetViewWriter
+    }
+    
+    private enum CameraPosition {
         case front
         case back
     }
@@ -34,66 +40,52 @@ class MetalCaptureSession: NSObject, AVCaptureVideoDataOutputSampleBufferDelegat
     private var backCamera: AVCaptureDevice?
     private var frontCamera: AVCaptureDevice?
     
-    private var currentCameraPosition: CameraPosition? {
-        didSet {
-            guard self.currentCameraPosition != oldValue else {
-                return
-            }
-            
-            if self.currentCameraPosition == .back {
-                
-            } else {
-                
-            }
-        }
-    }
+    private var currentCameraPosition: CameraPosition?
     
     private var inputDevice: AVCaptureDeviceInput? {
         didSet {
-            if captureSession.isRunning {
-                captureSession.beginConfiguration()
-            }
-            
+            captureSession.beginConfiguration()
             if let oldValue = oldValue {
                 captureSession.removeInput(oldValue)
             }
-            
             if let inputDevice = inputDevice {
                 captureSession.addInput(inputDevice)
             }
-            
-            if captureSession.isRunning {
-                captureSession.commitConfiguration()
-            }
+            captureSession.commitConfiguration()
         }
     }
     private var outputData: AVCaptureVideoDataOutput? {
         didSet {
-            if captureSession.isRunning {
-                captureSession.beginConfiguration()
-            }
-            
+            captureSession.beginConfiguration()
             if let oldValue = oldValue {
                 captureSession.removeOutput(oldValue)
             }
-            
             if let outputData = outputData {
                 captureSession.addOutput(outputData)
             }
-            
-            if captureSession.isRunning {
-                captureSession.commitConfiguration()
-            }
+            captureSession.commitConfiguration()
         }
     }
+    private let tempURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("movie.mov")
+    private var assetWriter: AVAssetWriter?
+    private var videoAssetWriter: AVAssetWriterInput?
+    private var latestBufferTime: CMTime?
+    
+    private var isRecording = false
     
     public var flashMode = AVCaptureDevice.FlashMode.off
     
-    public weak var delegate: MetalCaptureSessionDelegate?
+    public weak var delegate: MetalCameraControllerDelegate?
     
-    private var captureQueue = DispatchQueue(label: "CameraCaptureControllerQueue")
+    private var captureQueue = DispatchQueue(label: "com.uti0mnia.easy-capture.metalcameracontroller.capturequeue")
+    private var assetWriterQueue = DispatchQueue(label: "com.uti0mnia.easy-capture.metalcameracontroller.assetwriterqueue")
     
     private var metalBufferConverter = MetalBufferConverter()
+    
+    override init() {
+        super.init()
+        try? FileManager.default.removeItem(at: tempURL)
+    }
     
     public func start(completion: @escaping (Bool) -> Void) {
         let mainQueueCompletion = { success in
@@ -117,7 +109,6 @@ class MetalCaptureSession: NSObject, AVCaptureVideoDataOutputSampleBufferDelegat
                 try strongSelf.initCaptureDevices()
                 strongSelf.initCaptureOutput()
                 strongSelf.captureSession.commitConfiguration()
-                
                 try strongSelf.useCameraIfPossibleInPosition(.back)
                 strongSelf.captureSession.startRunning()
                 
@@ -152,8 +143,59 @@ class MetalCaptureSession: NSObject, AVCaptureVideoDataOutputSampleBufferDelegat
         }
     }
     
-    public func captureImage() {
+    public func addFileOutputIfPossible(_ fileOutput: AVCaptureMovieFileOutput) -> Bool {
+        guard captureSession.canAddOutput(fileOutput) else {
+            return false
+        }
         
+        captureSession.beginConfiguration()
+        captureSession.addOutput(fileOutput)
+        captureSession.commitConfiguration()
+        
+        return true
+    }
+    
+    public func startRecording() throws {
+        do {
+            try createAVAsset()
+        } catch {
+            throw error
+        }
+        
+        // won't actually ever fail
+        guard let assetWriter = self.assetWriter else {
+            return
+        }
+        
+        guard assetWriter.startWriting() else {
+            print("assetWriter couldn't start writing: \(assetWriter.error?.localizedDescription ?? "no error")")
+            print("assetWriter status: \(assetWriter.status.rawValue)")
+            return
+        }
+        assetWriter.startSession(atSourceTime: latestBufferTime ?? kCMTimeZero)
+        outputData?.alwaysDiscardsLateVideoFrames = false // shouldn't discard them when recording
+        isRecording = true
+    }
+    
+    public func stopRecording() {
+        guard isRecording, let assetWriter = self.assetWriter, let videoAssetWriter = self.videoAssetWriter else {
+            return
+        }
+        
+        let currentThreadCall = {
+            self.delegate?.metalCameraController(self, didFinishRecordingVideoAtURL: assetWriter.outputURL)
+        }
+        
+        // we use this thread because if the delegate call can be prempted right after checking if isRecording is true, and try to append a buffer
+        // after we set videoAssertWritter as finished there;s an error. This is EXTREMELY unlikely but Pete Bhur would be proud.
+        assetWriterQueue.async {
+            self.isRecording = false
+            videoAssetWriter.markAsFinished()
+            assetWriter.finishWriting {
+                currentThreadCall()
+            }
+            self.outputData?.alwaysDiscardsLateVideoFrames = true
+        }
     }
     
     private func initCaptureDevices() throws {
@@ -191,11 +233,36 @@ class MetalCaptureSession: NSObject, AVCaptureVideoDataOutputSampleBufferDelegat
         outputData.videoSettings = [
             kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)
         ]
+        
+        // we might not want to do this for recording
         outputData.alwaysDiscardsLateVideoFrames = true
         outputData.setSampleBufferDelegate(self, queue: captureQueue)
         
         if captureSession.canAddOutput(outputData) {
             self.outputData = outputData
+        }
+    }
+    
+    private func createAVAsset() throws {
+        guard let outputData = outputData else {
+            throw VideoRecordingError.noOutputData
+        }
+        
+        do {
+            let assetWriter = try AVAssetWriter(outputURL: tempURL, fileType: .mov)
+            let settings = outputData.recommendedVideoSettingsForAssetWriter(writingTo: .mov)
+            let videoAssetWriter = AVAssetWriterInput(mediaType: .video, outputSettings: settings)
+            videoAssetWriter.expectsMediaDataInRealTime = true
+            if assetWriter.canAdd(videoAssetWriter) {
+                assetWriter.add(videoAssetWriter)
+            } else {
+                throw VideoRecordingError.cannotAddAVAssetViewWriter
+            }
+            self.assetWriter = assetWriter
+            self.videoAssetWriter = videoAssetWriter
+        } catch {
+            print("error creating asset writer: \(error.localizedDescription)")
+            throw VideoRecordingError.failedToCreateAVAssetWriter
         }
     }
     
@@ -226,16 +293,23 @@ class MetalCaptureSession: NSObject, AVCaptureVideoDataOutputSampleBufferDelegat
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        // apply filtering to sample buffer if needed
+        latestBufferTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        assetWriterQueue.async {
+            if self.isRecording && (self.videoAssetWriter?.isReadyForMoreMediaData ?? false) {
+                self.videoAssetWriter?.append(sampleBuffer)
+            }
+        }
+        
         do {
             let texture = try metalBufferConverter.getTexture(sampleBuffer: sampleBuffer)
             connection.videoOrientation = .portrait
             connection.isVideoMirrored = (self.currentCameraPosition == .back) ? false : true
-            delegate?.metalCaptureSession(self, didReciveBufferAsTexture: texture)
+            delegate?.metalCameraController(self, didReciveBufferAsTexture: texture)
         } catch {
             print("Error making texture from buffer: \(error.localizedDescription)")
         }
     }
-
 }
 
 
