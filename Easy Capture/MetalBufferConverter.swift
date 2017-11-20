@@ -10,6 +10,11 @@ import AVFoundation
 import Accelerate
 import Metal
 
+/*
+ * This class is meant to handle the transformation of a CMSampleBuffer into a usable MTLTexture for metal.
+ * For now it just simply transforms it, but later this will be use for handling different pixel types, and
+ * different orientations.
+ */
 class MetalBufferConverter: NSObject {
     
     public enum MetalBufferConverterError: Swift.Error {

@@ -10,10 +10,6 @@ import MetalKit
 
 class MetalTextureConverter: NSObject {
     
-    public static var shared = MetalTextureConverter()
-    
-    private override init() { }
-    
     public func convertToCGImage(_ texture: MTLTexture) -> CGImage? {
         // we can see what brga looks like from https://developer.apple.com/documentation/metal/fundamental_lessons/basic_texturing
         let rawBitmapInfo = CGImageAlphaInfo.noneSkipFirst.rawValue | CGBitmapInfo.byteOrder32Little.rawValue

@@ -54,7 +54,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCamera
         metalView = MTKView(frame: self.view.bounds, device: device)
         metalView?.delegate = self
         metalView?.framebufferOnly = true
-        metalView?.colorPixelFormat = .bgra8Unorm
+        metalView?.colorPixelFormat = .bgra8Unorm // TODO: test with bgra32Unorm?
         metalView?.contentScaleFactor = UIScreen.main.scale
         metalView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.insertSubview(metalView!, at: 0)
@@ -67,7 +67,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCamera
         
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
         pipelineDescriptor.sampleCount = 1
-        pipelineDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
+        pipelineDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm // TODO: test with bgra32Unorm
         pipelineDescriptor.depthAttachmentPixelFormat = .invalid
         
         pipelineDescriptor.vertexFunction = library.makeFunction(name: "mapTexture")

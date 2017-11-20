@@ -83,6 +83,7 @@ class MetalCameraController: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
     
     override init() {
         super.init()
+        
         try? FileManager.default.removeItem(at: tempURL)
     }
     
@@ -140,18 +141,6 @@ class MetalCameraController: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
         } catch {
             throw error
         }
-    }
-    
-    public func addFileOutputIfPossible(_ fileOutput: AVCaptureMovieFileOutput) -> Bool {
-        guard captureSession.canAddOutput(fileOutput) else {
-            return false
-        }
-        
-        captureSession.beginConfiguration()
-        captureSession.addOutput(fileOutput)
-        captureSession.commitConfiguration()
-        
-        return true
     }
     
     public func startRecording() throws {

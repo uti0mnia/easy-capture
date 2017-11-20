@@ -20,6 +20,16 @@ extension UIView {
         layer.rasterizationScale = UIScreen.main.scale
     }
     
+    public func u0_addBlackImageShadow() {
+        layer.shadowOffset = CGSize.zero
+        layer.shadowColor = UIColor.white.cgColor
+        layer.shadowOpacity = 0.9
+        layer.shadowRadius = 1
+        
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+    }
+    
     public func u0_addToastShadow() {
         layer.shadowOffset = CGSize.zero
         layer.shadowColor = UIColor.black.cgColor

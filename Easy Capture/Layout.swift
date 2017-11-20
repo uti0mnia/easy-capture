@@ -22,4 +22,6 @@ class Layout {
     public static let toastMargin = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
     
     public static let toastMessageHeight: CGFloat = 40
+    
+    public static let optionViewHeight: CGFloat = 40
 }

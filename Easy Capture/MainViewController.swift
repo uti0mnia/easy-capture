@@ -8,10 +8,13 @@
 
 import UIKit
 import AVFoundation
+import SnapKit
 
-class MainViewController: MetalCaptureViewController {
+class MainViewController: MetalCaptureViewController, CameraOptionsViewDelegate {
+    
 
     private var recordButton: UIButton?
+    private var cameraOptionsView = CameraOptionsView()
     
     var isRecording = false
     
@@ -41,6 +44,13 @@ class MainViewController: MetalCaptureViewController {
         recordButton?.addTarget(self, action: #selector(capturePicture(_:)), for: .touchUpInside)
         
         view.addSubview(recordButton!)
+        
+        cameraOptionsView.delegate = self
+        view.addSubview(cameraOptionsView)
+        cameraOptionsView.snp.makeConstraints() { make in
+            make.top.left.right.equalToSuperview().inset(Layout.padding)
+            make.height.equalTo(Layout.optionViewHeight)
+        }
     }
     
     @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
@@ -59,11 +69,28 @@ class MainViewController: MetalCaptureViewController {
 //
 //        present(capturePreviewVC, animated: false, completion: nil)
         
-        isRecording ? metalCameraController.stopRecording() : try? metalCameraController.startRecording()
-        isRecording = !isRecording
+//        isRecording ? metalCameraController.stopRecording() : try? metalCameraController.startRecording()
+//        isRecording = !isRecording
     }
     
+    // MARK: - CameraOptionsViewDelegate
     
+    
+    func cameraOptionsViewDidSelectCamera(_ cameraOptionsView: CameraOptionsView) {
+        cameraOptionsView.setCameraMode()
+    }
+    
+    func cameraOptionsViewDidSelectVideo(_ cameraOptionsView: CameraOptionsView) {
+        cameraOptionsView.setVideoMode()
+    }
+    
+    func cameraOptionsViewDidSelectToggleFlash(_ cameraOptionsView: CameraOptionsView) {
+        // nothing
+    }
+    
+    func cameraOptionsViewDidSelectToggleCamera(_ cameraOptionsView: CameraOptionsView) {
+        try? metalCameraController.toggleCameraIfPossible()
+    }
     
 }
 
