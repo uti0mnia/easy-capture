@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		358D1CFE1C098C19F590F1EC /* Pods_Easy_Capture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C5B792E75787714152DE69 /* Pods_Easy_Capture.framework */; };
-		C918C1901FC2574800729BC9 /* CameraOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918C18F1FC2574800729BC9 /* CameraOptionsView.swift */; };
+		C918C1901FC2574800729BC9 /* CameraStatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918C18F1FC2574800729BC9 /* CameraStatusBarView.swift */; };
 		C92469561FBCBF6300C33A4A /* MetalTextureConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469551FBCBF6300C33A4A /* MetalTextureConverter.swift */; };
 		C92469591FBCD5CE00C33A4A /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469571FBCD5CE00C33A4A /* ToastView.swift */; };
 		C924695A1FBCD5CE00C33A4A /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469581FBCD5CE00C33A4A /* ToastManager.swift */; };
@@ -17,9 +17,9 @@
 		C92469681FBCD6D300C33A4A /* Colours.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469671FBCD6D300C33A4A /* Colours.swift */; };
 		C9285DCA1FA5696E00FD38FB /* CapturePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */; };
 		C94F17761FBFDC6C00245A35 /* CameraCaptureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94F17751FBFDC6C00245A35 /* CameraCaptureController.swift */; };
-		C96112611FA372B500C1CBC7 /* MetalCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112601FA372B500C1CBC7 /* MetalCameraController.swift */; };
 		C96112631FA3ECB600C1CBC7 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */; };
 		C96112651FA5160D00C1CBC7 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112641FA5160D00C1CBC7 /* Layout.swift */; };
+		C97E80421FC89A5400F694E6 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E80411FC89A5400F694E6 /* CameraController.swift */; };
 		C9A0EF071FA790AC008264F0 /* MetalBufferConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */; };
 		C9A0EF091FA79D0B008264F0 /* MetalCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0EF081FA79D0B008264F0 /* MetalCaptureViewController.swift */; };
 		C9A0EF0B1FA79EA2008264F0 /* MetalCameraShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = C9A0EF0A1FA79EA2008264F0 /* MetalCameraShader.metal */; };
@@ -29,11 +29,12 @@
 		C9A12EA21FA3706C007FC5CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9A12EA11FA3706C007FC5CF /* Assets.xcassets */; };
 		C9A12EA51FA3706C007FC5CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A12EA31FA3706C007FC5CF /* LaunchScreen.storyboard */; };
 		C9C66B281FC0A36C006E9E25 /* VideoRecorderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C66B271FC0A36C006E9E25 /* VideoRecorderController.swift */; };
+		C9D92B501FD63B41001B39B4 /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D92B4F1FD63B41001B39B4 /* VideoPreviewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7085153FEE2586528F25BF37 /* Pods-Easy Capture.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Easy Capture.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture.debug.xcconfig"; sourceTree = "<group>"; };
-		C918C18F1FC2574800729BC9 /* CameraOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraOptionsView.swift; sourceTree = "<group>"; };
+		C918C18F1FC2574800729BC9 /* CameraStatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStatusBarView.swift; sourceTree = "<group>"; };
 		C92469551FBCBF6300C33A4A /* MetalTextureConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalTextureConverter.swift; sourceTree = "<group>"; };
 		C92469571FBCD5CE00C33A4A /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		C92469581FBCD5CE00C33A4A /* ToastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
@@ -42,9 +43,9 @@
 		C92469671FBCD6D300C33A4A /* Colours.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colours.swift; sourceTree = "<group>"; };
 		C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePreviewViewController.swift; sourceTree = "<group>"; };
 		C94F17751FBFDC6C00245A35 /* CameraCaptureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureController.swift; sourceTree = "<group>"; };
-		C96112601FA372B500C1CBC7 /* MetalCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalCameraController.swift; sourceTree = "<group>"; };
 		C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		C96112641FA5160D00C1CBC7 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
+		C97E80411FC89A5400F694E6 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBufferConverter.swift; sourceTree = "<group>"; };
 		C9A0EF081FA79D0B008264F0 /* MetalCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalCaptureViewController.swift; sourceTree = "<group>"; };
 		C9A0EF0A1FA79EA2008264F0 /* MetalCameraShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MetalCameraShader.metal; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 		C9A12EA41FA3706C007FC5CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9A12EA61FA3706C007FC5CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9C66B271FC0A36C006E9E25 /* VideoRecorderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderController.swift; sourceTree = "<group>"; };
+		C9D92B4F1FD63B41001B39B4 /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
 		E225B7EC8046A02A19A3F0A2 /* Pods-Easy Capture.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Easy Capture.release.xcconfig"; path = "Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture.release.xcconfig"; sourceTree = "<group>"; };
 		F4C5B792E75787714152DE69 /* Pods_Easy_Capture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Easy_Capture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -86,7 +88,8 @@
 			children = (
 				C9A12E9C1FA3706C007FC5CF /* MainViewController.swift */,
 				C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */,
-				C918C18F1FC2574800729BC9 /* CameraOptionsView.swift */,
+				C9D92B4F1FD63B41001B39B4 /* VideoPreviewViewController.swift */,
+				C918C18F1FC2574800729BC9 /* CameraStatusBarView.swift */,
 			);
 			name = "Camera View Controllers";
 			sourceTree = "<group>";
@@ -137,10 +140,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		C97E80401FC5CA7C00F694E6 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				C94F17751FBFDC6C00245A35 /* CameraCaptureController.swift */,
+				C9C66B271FC0A36C006E9E25 /* VideoRecorderController.swift */,
+				C97E80411FC89A5400F694E6 /* CameraController.swift */,
+			);
+			name = Camera;
+			sourceTree = "<group>";
+		};
 		C9A0EF0C1FA7A383008264F0 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
-				C96112601FA372B500C1CBC7 /* MetalCameraController.swift */,
 				C9A0EF081FA79D0B008264F0 /* MetalCaptureViewController.swift */,
 				C92469551FBCBF6300C33A4A /* MetalTextureConverter.swift */,
 				C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */,
@@ -171,8 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				C9A12E9E1FA3706C007FC5CF /* Main.storyboard */,
-				C94F17751FBFDC6C00245A35 /* CameraCaptureController.swift */,
-				C9C66B271FC0A36C006E9E25 /* VideoRecorderController.swift */,
+				C97E80401FC5CA7C00F694E6 /* Camera */,
 				C92469611FBCD64D00C33A4A /* Constants */,
 				C924695D1FBCD5F200C33A4A /* Camera View Controllers */,
 				C9A0EF0C1FA7A383008264F0 /* Metal */,
@@ -325,13 +336,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C97E80421FC89A5400F694E6 /* CameraController.swift in Sources */,
 				C94F17761FBFDC6C00245A35 /* CameraCaptureController.swift in Sources */,
 				C92469661FBCD6C300C33A4A /* Fonts.swift in Sources */,
+				C9D92B501FD63B41001B39B4 /* VideoPreviewViewController.swift in Sources */,
 				C92469681FBCD6D300C33A4A /* Colours.swift in Sources */,
 				C9A12E9D1FA3706C007FC5CF /* MainViewController.swift in Sources */,
 				C9A0EF091FA79D0B008264F0 /* MetalCaptureViewController.swift in Sources */,
 				C924695C1FBCD5EA00C33A4A /* UIView+Shadow.swift in Sources */,
-				C96112611FA372B500C1CBC7 /* MetalCameraController.swift in Sources */,
 				C924695A1FBCD5CE00C33A4A /* ToastManager.swift in Sources */,
 				C9A0EF071FA790AC008264F0 /* MetalBufferConverter.swift in Sources */,
 				C9A0EF0B1FA79EA2008264F0 /* MetalCameraShader.metal in Sources */,
@@ -340,7 +352,7 @@
 				C92469591FBCD5CE00C33A4A /* ToastView.swift in Sources */,
 				C96112651FA5160D00C1CBC7 /* Layout.swift in Sources */,
 				C96112631FA3ECB600C1CBC7 /* PermissionManager.swift in Sources */,
-				C918C1901FC2574800729BC9 /* CameraOptionsView.swift in Sources */,
+				C918C1901FC2574800729BC9 /* CameraStatusBarView.swift in Sources */,
 				C92469561FBCBF6300C33A4A /* MetalTextureConverter.swift in Sources */,
 				C9A12E9B1FA3706C007FC5CF /* AppDelegate.swift in Sources */,
 			);

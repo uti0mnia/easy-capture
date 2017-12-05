@@ -25,6 +25,7 @@ class VideoRecorderController: NSObject {
         case failedToCreateAVAssetWriter
         case cannotAddAVAssetViewWriter
         case avAssetWriterWrongState
+        case recorderNotReady
     }
     
     public weak var delegate: VideoRecorderControllerDelegate?
@@ -41,7 +42,7 @@ class VideoRecorderController: NSObject {
     
     public func startRecording(fromOutput output: AVCaptureVideoDataOutput) throws {
         guard status != .ready else {
-            return
+            throw RecordingError.recorderNotReady
         }
         
         try? FileManager.default.removeItem(at: tempURL) // delete item at tempURL if it's there

@@ -14,6 +14,7 @@ protocol CameraCaptureControllerDelegate: class {
 
 class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     public enum CameraCaptureError: Swift.Error {
+        case unauthorized
         case captureSessionNotRunning
         case captureSessionAlreadyRunning
         case invalidInput
@@ -57,16 +58,13 @@ class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
             captureSession.commitConfiguration()
         }
     }
-    private var outputData: AVCaptureVideoDataOutput? {
+    private(set) var outputData: AVCaptureVideoDataOutput? {
         didSet {
             captureSession.beginConfiguration()
             if let oldValue = oldValue {
                 captureSession.removeOutput(oldValue)
             }
             if let outputData = outputData {
-                if let connection = outputData.connection(with: .video) {
-                    connection.videoOrientation = .portrait // default for now
-                }
                 captureSession.addOutput(outputData)
             }
             captureSession.commitConfiguration()
@@ -102,24 +100,28 @@ class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
         removeNotifications()
     }
     
-    public func start() {
+    public func start() throws {
         guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized else {
             status = .unauthorized
-            return
+            throw CameraCaptureError.unauthorized
         }
         
         if status == .ready {
             captureQueue.async {
                 self.captureSession.startRunning()
             }
+        } else {
+            throw CameraCaptureError.unknown
         }
     }
     
-    public func stop() {
+    public func stop() throws {
         if status == .running {
             captureQueue.async {
                 self.captureSession.stopRunning()
             }
+        } else {
+            throw CameraCaptureError.unknown
         }
         
     }
@@ -209,6 +211,7 @@ class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        connection.videoOrientation = .portrait // todo figure out how to do this shit correctly
         delegate?.cameraCaptureController(self, didRecieveSampleBuffer: sampleBuffer)
     }
     

@@ -11,7 +11,7 @@ import UIKit
 class Layout {
     public static let padding: CGFloat = 8
     
-    public static let recordButtonSize = CGSize.init(width: 80, height: 80)
+    public static let recordButtonSide: CGFloat = 70
     
     public static let closeButtonSize = CGSize.init(width: 50, height: 50)
     

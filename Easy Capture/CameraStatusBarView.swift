@@ -10,21 +10,23 @@ import UIKit
 import SnapKit
 import ChameleonFramework
 
-protocol CameraOptionsViewDelegate: class {
-    func cameraOptionsViewDidSelectCamera(_ cameraOptionsView: CameraOptionsView)
-    func cameraOptionsViewDidSelectVideo(_ cameraOptionsView: CameraOptionsView)
-    func cameraOptionsViewDidSelectToggleFlash(_ cameraOptionsView: CameraOptionsView)
-    func cameraOptionsViewDidSelectToggleCamera(_ cameraOptionsView: CameraOptionsView)
+protocol CameraStatusBarViewDelegate: class {
+    func cameraOptionsViewDidSelectCamera(_ cameraOptionsView: CameraStatusBarView)
+    func cameraOptionsViewDidSelectVideo(_ cameraOptionsView: CameraStatusBarView)
+    func cameraOptionsViewDidSelectToggleFlash(_ cameraOptionsView: CameraStatusBarView)
+    func cameraOptionsViewDidSelectToggleCamera(_ cameraOptionsView: CameraStatusBarView)
 }
 
-class CameraOptionsView: UIView {
+class CameraStatusBarView: UIView {
     
-    public weak var delegate: CameraOptionsViewDelegate?
+    public weak var delegate: CameraStatusBarViewDelegate?
     
     private var cameraImage: UIImageView!
     private var videoImage: UIImageView!
     private var toggleCameraImage: UIImageView!
     private var flashImage: UIImageView!
+    
+    private(set) var timerLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,7 +42,6 @@ class CameraOptionsView: UIView {
     }
     
     private func addSubviews() {
-        
         cameraImage = UIImageView(image: #imageLiteral(resourceName: "photo").withRenderingMode(.alwaysTemplate))
         cameraImage.tintColor = UIColor.black
         cameraImage.isUserInteractionEnabled = true
@@ -72,6 +73,9 @@ class CameraOptionsView: UIView {
         flashImage.addGestureRecognizer(tap4)
         flashImage.u0_addBlackImageShadow()
         addSubview(flashImage)
+        
+        timerLabel.textAlignment = .center
+        addSubview(timerLabel)
     }
     
     private func addConstraints() {
@@ -91,6 +95,12 @@ class CameraOptionsView: UIView {
         flashImage.snp.makeConstraints() { make in
             make.right.equalTo(toggleCameraImage.snp.left).offset(-Layout.padding)
             make.top.bottom.equalToSuperview()
+        }
+        
+        timerLabel.snp.makeConstraints() { make in
+            make.left.equalTo(videoImage.snp.right).offset(Layout.padding)
+            make.top.bottom.equalToSuperview()
+            make.right.equalTo(flashImage.snp.right).offset(-Layout.padding)
         }
     }
     

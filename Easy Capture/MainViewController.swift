@@ -10,15 +10,24 @@ import UIKit
 import AVFoundation
 import SnapKit
 
-class MainViewController: MetalCaptureViewController, CameraOptionsViewDelegate {
+class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegate, CameraControllerDelegate {
     
-
-    private var recordButton: UIButton?
-    private var cameraOptionsView = CameraOptionsView()
+    public enum CameraMode {
+        case photo
+        case video
+    }
     
-    var isRecording = false
+    private var recordImage = UIImageView()
+    private var cameraStatusBarView = CameraStatusBarView()
     
     lazy private var capturePreviewVC = CapturePreviewViewController()
+    lazy private var videoPreviewVC = VideoPreviewViewController()
+    
+    private let cameraController = CameraController()
+    
+    private var mode = CameraMode.video
+    
+    private var videoTimer: Timer?
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -27,69 +36,126 @@ class MainViewController: MetalCaptureViewController, CameraOptionsViewDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initVisuals()
+        setVisuals()
+        addConstraints()
+        addGestures()
         
+        cameraController.startRenderingTextures() { success in
+            guard success else {
+                self.displayError(message: "Issue starting camera... This shouldn't happen.")
+                return
+            }
+            
+            self.cameraController.delegate = self
+        }
+    }
+    
+    private func setVisuals() {
+        recordImage.image = #imageLiteral(resourceName: "record")
+        recordImage.contentMode = .scaleAspectFit
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapRecordButton(_:)))
+        recordImage.isUserInteractionEnabled = true
+        recordImage.addGestureRecognizer(tap)
+        view.addSubview(recordImage)
+        
+        cameraStatusBarView.delegate = self
+        view.addSubview(cameraStatusBarView)
+        
+        if mode == .photo {
+            cameraStatusBarView.setCameraMode()
+        } else {
+            cameraStatusBarView.setVideoMode()
+        }
+    }
+    
+    private func addConstraints() {
+        cameraStatusBarView.snp.makeConstraints() { make in
+            make.top.left.right.equalToSuperview().inset(Layout.padding)
+            make.height.equalTo(Layout.optionViewHeight)
+        }
+        
+        recordImage.snp.makeConstraints() { make in
+            make.bottom.equalToSuperview().offset(-Layout.padding)
+            make.centerX.equalToSuperview()
+            make.height.width.equalTo(Layout.recordButtonSide)
+        }
+    }
+    
+    private func addGestures() {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
         doubleTap.numberOfTapsRequired = 2
         view.addGestureRecognizer(doubleTap)
     }
     
-    private func initVisuals() {
-        let frame = CGRect(x: (view.bounds.width - Layout.recordButtonSize.width) / 2,
-                           y: view.bounds.height - Layout.recordButtonSize.height - Layout.padding,
-                           width: Layout.recordButtonSize.width,
-                           height: Layout.recordButtonSize.height)
-        recordButton = UIButton(frame: frame)
-        recordButton?.setImage(#imageLiteral(resourceName: "record"), for: .normal)
-        recordButton?.addTarget(self, action: #selector(capturePicture(_:)), for: .touchUpInside)
-        
-        view.addSubview(recordButton!)
-        
-        cameraOptionsView.delegate = self
-        view.addSubview(cameraOptionsView)
-        cameraOptionsView.snp.makeConstraints() { make in
-            make.top.left.right.equalToSuperview().inset(Layout.padding)
-            make.height.equalTo(Layout.optionViewHeight)
+    @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
+        try? cameraCaptureController.toggleCameraIfPossible()
+    }
+    
+    @objc private func didTapRecordButton(_ sender: UITapGestureRecognizer) {
+        switch mode {
+        case .photo:
+            takePicture()
+        case .video:
+            if cameraController.isRecording {
+                stopRecording()
+            } else {
+                startRecording()
+            }
         }
     }
     
-    @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-        try? metalCameraController.toggleCameraIfPossible()
+    private func takePicture() {
+        // TODO - move to class + use different colour types
+        guard let cgimage = cameraController.takePicture() else {
+            return
+        }
+        
+        capturePreviewVC.imageView.image = UIImage(cgImage: cgimage)
+        
+        present(capturePreviewVC, animated: false, completion: nil)
     }
     
-    @objc private func capturePicture(_ sender: UIButton) {
-//        // TODO - move to class + use different colour types
-//        guard let texture = self.texture, let cgimage = MetalTextureConverter.shared.convertToCGImage(texture) else {
-//            print("Couldn't create cgimage from texture")
-//            return
-//        }
-//
-//        let image = UIImage(cgImage: cgimage)
-//        capturePreviewVC.imageView.image = image
-//
-//        present(capturePreviewVC, animated: false, completion: nil)
-        
-//        isRecording ? metalCameraController.stopRecording() : try? metalCameraController.startRecording()
-//        isRecording = !isRecording
+    private func startRecording() {
+        cameraController.startRecording()
+    }
+    
+    private func stopRecording() {
+        cameraController.stopRecording()
     }
     
     // MARK: - CameraOptionsViewDelegate
     
     
-    func cameraOptionsViewDidSelectCamera(_ cameraOptionsView: CameraOptionsView) {
+    func cameraOptionsViewDidSelectCamera(_ cameraOptionsView: CameraStatusBarView) {
         cameraOptionsView.setCameraMode()
     }
     
-    func cameraOptionsViewDidSelectVideo(_ cameraOptionsView: CameraOptionsView) {
+    func cameraOptionsViewDidSelectVideo(_ cameraOptionsView: CameraStatusBarView) {
         cameraOptionsView.setVideoMode()
     }
     
-    func cameraOptionsViewDidSelectToggleFlash(_ cameraOptionsView: CameraOptionsView) {
+    func cameraOptionsViewDidSelectToggleFlash(_ cameraOptionsView: CameraStatusBarView) {
         // nothing
     }
     
-    func cameraOptionsViewDidSelectToggleCamera(_ cameraOptionsView: CameraOptionsView) {
-        try? metalCameraController.toggleCameraIfPossible()
+    func cameraOptionsViewDidSelectToggleCamera(_ cameraOptionsView: CameraStatusBarView) {
+        try? cameraCaptureController.toggleCameraIfPossible()
+    }
+    
+    // MARK: - CameraControllerDelegate
+    
+    func cameraController(_ cameraController: CameraController, didRenderTexture texture: MTLTexture) {
+        self.texture = texture
+    }
+    
+    func cameraController(_ cameraController: CameraController, didReceiveRecordingAt url: URL) {
+        videoPreviewVC.url = url
+        self.present(videoPreviewVC, animated: true, completion: nil)
+    }
+    
+    func cameraController(_ cameraController: CameraController, didReceiveRecordingError error: Error) {
+        displayError(message: "There was a problem recording the video...")
+        print("Error recording: \(error.localizedDescription)")
     }
     
 }

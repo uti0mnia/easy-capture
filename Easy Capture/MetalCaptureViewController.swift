@@ -6,42 +6,28 @@
 //  Copyright © 2017 Casey McLewin. All rights reserved.
 //
 
+import AVFoundation
 import MetalKit
 import UIKit
-import Photos
 
-class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCameraControllerDelegate {
+class MetalCaptureViewController: UIViewController, MTKViewDelegate {
     
     private var semaphore = DispatchSemaphore(value: 1)
     
-    private(set) var texture: MTLTexture?
+    public var texture: MTLTexture?
     private var metalView: MTKView?
     
     private var device = MTLCreateSystemDefaultDevice()
     private var renderPipelineState: MTLRenderPipelineState?
     
-    private(set) var metalCameraController = MetalCameraController()
+    private(set) var cameraCaptureController = CameraCaptureController()
+    private var metalBufferConverter = MetalBufferConverter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initMetalView()
         initRenderPipelineState()
-        
-        
-        PermissionManager.shared.cameraPermission() { granted in
-            guard granted else {
-                print("no access to camera")
-                return
-            }
-            
-            self.metalCameraController.start() { success in
-                guard success else {
-                    return
-                }
-            }
-            self.metalCameraController.delegate = self
-        }
     }
     
     override func loadView() {
@@ -80,6 +66,18 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCamera
             assertionFailure("Failed creating a render state pipeline. Can't render the texture without one.")
             return
         }
+    }
+    
+    public func displayError(message: String?) {
+        guard self.isViewLoaded, view.window != nil else {
+            return
+        }
+        
+        let alert = UIAlertController(title: "Oops!", message: message, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(ok)
+        
+        present(alert, animated: true, completion: nil)
     }
     
     public func didRender(texture: MTLTexture) {
@@ -123,11 +121,11 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCamera
         encoder.endEncoding()
         
         // Called after the command buffer is scheduled
-        commandBuffer.addScheduledHandler { [weak self] (buffer) in
+        commandBuffer.addScheduledHandler { [weak self] buffer in
             guard let strongSelf = self else {
                 return
             }
-            self?.didRender(texture: texture)
+            strongSelf.didRender(texture: texture)
             strongSelf.semaphore.signal()
         }
         
@@ -137,23 +135,24 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate, MetalCamera
     
     // MARK: - MetalCaptureSessionDelegate
     
-    func metalCameraController(_ metalCameraController: MetalCameraController, didReciveBufferAsTexture texture: MTLTexture) {
-        self.texture = texture
-    }
+//    func metalCameraController(_ metalCameraController: MetalCameraController, didReciveBufferAsTexture texture: MTLTexture) {
+//        self.texture = texture
+//    }
+//
+//    func metalCameraController(_ metalCameraController: MetalCameraController, didFinishRecordingVideoAtURL url: URL) {
+//        PermissionManager.shared.photoPermission() { granted in
+//            PHPhotoLibrary.shared().performChanges({
+//                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url.absoluteURL)
+//            }) { success, error in
+//                if let error = error {
+//                    print(error.localizedDescription)
+//                } else {
+//                    print("success!")
+//                }
+//            }
+//        }
+//    }
     
-    func metalCameraController(_ metalCameraController: MetalCameraController, didFinishRecordingVideoAtURL url: URL) {
-        PermissionManager.shared.photoPermission() { granted in
-            PHPhotoLibrary.shared().performChanges({
-                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url.absoluteURL)
-            }) { success, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    print("success!")
-                }
-            }
-        }
-    }
 }
 
 
