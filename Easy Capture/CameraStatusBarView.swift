@@ -26,8 +26,6 @@ class CameraStatusBarView: UIView {
     private var toggleCameraImage: UIImageView!
     private var flashImage: UIImageView!
     
-    private(set) var timerLabel = UILabel()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -73,9 +71,6 @@ class CameraStatusBarView: UIView {
         flashImage.addGestureRecognizer(tap4)
         flashImage.u0_addBlackImageShadow()
         addSubview(flashImage)
-        
-        timerLabel.textAlignment = .center
-        addSubview(timerLabel)
     }
     
     private func addConstraints() {
@@ -95,12 +90,6 @@ class CameraStatusBarView: UIView {
         flashImage.snp.makeConstraints() { make in
             make.right.equalTo(toggleCameraImage.snp.left).offset(-Layout.padding)
             make.top.bottom.equalToSuperview()
-        }
-        
-        timerLabel.snp.makeConstraints() { make in
-            make.left.equalTo(videoImage.snp.right).offset(Layout.padding)
-            make.top.bottom.equalToSuperview()
-            make.right.equalTo(flashImage.snp.right).offset(-Layout.padding)
         }
     }
     

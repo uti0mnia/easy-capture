@@ -202,6 +202,7 @@ class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
                 self.inputDevice = input
             }
             currentCameraPosition = position
+            
         } catch {
             print("Couldn't get back camera input \(error.localizedDescription)")
             throw CameraCaptureError.invalidInput
@@ -211,7 +212,8 @@ class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        connection.videoOrientation = .portrait // todo figure out how to do this shit correctly
+        connection.videoOrientation = .portrait // TODO: figure out how to do this shit correctly
+        connection.isVideoMirrored = (currentCameraPosition == .back) ? false : true // TODO: how to do this better
         delegate?.cameraCaptureController(self, didRecieveSampleBuffer: sampleBuffer)
     }
     

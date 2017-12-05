@@ -20,9 +20,6 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
     private var device = MTLCreateSystemDefaultDevice()
     private var renderPipelineState: MTLRenderPipelineState?
     
-    private(set) var cameraCaptureController = CameraCaptureController()
-    private var metalBufferConverter = MetalBufferConverter()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

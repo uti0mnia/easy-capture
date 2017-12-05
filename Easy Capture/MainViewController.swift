@@ -88,7 +88,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     }
     
     @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-        try? cameraCaptureController.toggleCameraIfPossible()
+        cameraController.toggleCamera()
     }
     
     @objc private func didTapRecordButton(_ sender: UITapGestureRecognizer) {
@@ -139,7 +139,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     }
     
     func cameraOptionsViewDidSelectToggleCamera(_ cameraOptionsView: CameraStatusBarView) {
-        try? cameraCaptureController.toggleCameraIfPossible()
+        
     }
     
     // MARK: - CameraControllerDelegate

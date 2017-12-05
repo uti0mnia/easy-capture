@@ -78,6 +78,14 @@ class CameraController: NSObject, CameraCaptureControllerDelegate, VideoRecorder
         isRecording = false
     }
     
+    public func toggleCamera() {
+        guard !isRecording else {
+            // TODO: Handle swapping camera while recording
+            return
+        }
+        try? cameraCaptureController.toggleCameraIfPossible()
+    }
+    
     // MARK: - CameraCaptureControllerDelegate
     
     func cameraCaptureController(_ cameraCaptureController: CameraCaptureController, didRecieveSampleBuffer sampleBuffer: CMSampleBuffer) {
