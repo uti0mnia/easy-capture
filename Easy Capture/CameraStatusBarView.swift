@@ -26,6 +26,8 @@ class CameraStatusBarView: UIView {
     private var toggleCameraImage: UIImageView!
     private var flashImage: UIImageView!
     
+    public var timerLabel = UILabel()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -40,56 +42,61 @@ class CameraStatusBarView: UIView {
     }
     
     private func addSubviews() {
-        cameraImage = UIImageView(image: #imageLiteral(resourceName: "photo").withRenderingMode(.alwaysTemplate))
-        cameraImage.tintColor = UIColor.black
-        cameraImage.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapIcon(_:)))
-        cameraImage.addGestureRecognizer(tap)
-        cameraImage.u0_addBlackImageShadow()
+        timerLabel.text = "00:00"
+        timerLabel.textAlignment = .center
+        addSubview(timerLabel)
+        
+        cameraImage = createImageView(with: #imageLiteral(resourceName: "photo"))
         addSubview(cameraImage)
         
-        videoImage = UIImageView(image: #imageLiteral(resourceName: "video").withRenderingMode(.alwaysTemplate))
-        videoImage.tintColor = UIColor.black
-        videoImage.isUserInteractionEnabled = true
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(didTapIcon(_:)))
-        videoImage.addGestureRecognizer(tap2)
-        videoImage.u0_addBlackImageShadow()
+        videoImage = createImageView(with: #imageLiteral(resourceName: "video"))
         addSubview(videoImage)
         
-        toggleCameraImage = UIImageView(image: #imageLiteral(resourceName: "swapCamera").withRenderingMode(.alwaysTemplate))
-        toggleCameraImage.tintColor = UIColor.black
-        toggleCameraImage.isUserInteractionEnabled = true
-        let tap3 = UITapGestureRecognizer(target: self, action: #selector(didTapIcon(_:)))
-        toggleCameraImage.addGestureRecognizer(tap3)
-        toggleCameraImage.u0_addBlackImageShadow()
+        toggleCameraImage = createImageView(with: #imageLiteral(resourceName: "swapCamera"))
         addSubview(toggleCameraImage)
         
-        flashImage = UIImageView(image: #imageLiteral(resourceName: "flashoff").withRenderingMode(.alwaysTemplate))
-        flashImage.tintColor = UIColor.black
-        flashImage.isUserInteractionEnabled = true
-        let tap4 = UITapGestureRecognizer(target: self, action: #selector(didTapIcon(_:)))
-        flashImage.addGestureRecognizer(tap4)
-        flashImage.u0_addBlackImageShadow()
+        flashImage = createImageView(with: #imageLiteral(resourceName: "flashoff"))
         addSubview(flashImage)
     }
     
+    private func createImageView(with image: UIImage) -> UIImageView {
+        let imageView = UIImageView(image: image.withRenderingMode(.alwaysTemplate))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = Colours.unselectedOptionTint
+        imageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapIcon(_:)))
+        imageView.addGestureRecognizer(tap)
+        imageView.u0_addBlackImageShadow()
+        return imageView
+    }
+    
     private func addConstraints() {
+        timerLabel.snp.makeConstraints() { make in
+            make.left.equalTo(videoImage.snp.right).offset(Layout.padding)
+            make.top.bottom.equalToSuperview()
+            make.right.equalTo(flashImage.snp.left).offset(-Layout.padding)
+        }
+        
         cameraImage.snp.makeConstraints() { make in
             make.left.top.bottom.equalToSuperview()
+            make.width.equalTo(cameraImage.snp.height)
         }
         
         videoImage.snp.makeConstraints() { make in
             make.left.equalTo(cameraImage.snp.right).offset(Layout.padding)
             make.top.bottom.equalToSuperview()
+            make.width.equalTo(videoImage.snp.height)
         }
         
         toggleCameraImage.snp.makeConstraints() { make in
             make.right.top.bottom.equalToSuperview()
+            make.width.equalTo(toggleCameraImage.snp.height)
         }
         
         flashImage.snp.makeConstraints() { make in
             make.right.equalTo(toggleCameraImage.snp.left).offset(-Layout.padding)
             make.top.bottom.equalToSuperview()
+            make.width.equalTo(flashImage.snp.height)
         }
     }
     
@@ -98,13 +105,13 @@ class CameraStatusBarView: UIView {
     }
     
     public func setCameraMode() {
-        cameraImage.tintColor = UIColor.green
-        videoImage.tintColor = UIColor.black
+        cameraImage.tintColor = Colours.selectedOptionTint
+        videoImage.tintColor = Colours.unselectedOptionTint
     }
     
     public func setVideoMode() {
-        cameraImage.tintColor = UIColor.black
-        videoImage.tintColor = UIColor.green
+        cameraImage.tintColor = Colours.unselectedOptionTint
+        videoImage.tintColor = Colours.selectedOptionTint
     }
     
     @objc private func didTapIcon(_ sender: UITapGestureRecognizer) {

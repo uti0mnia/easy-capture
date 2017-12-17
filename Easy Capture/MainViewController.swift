@@ -107,6 +107,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     private func takePicture() {
         // TODO - move to class + use different colour types
         guard let cgimage = cameraController.takePicture() else {
+            print("picture was nil")
             return
         }
         
@@ -128,10 +129,12 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     func cameraOptionsViewDidSelectCamera(_ cameraOptionsView: CameraStatusBarView) {
         cameraOptionsView.setCameraMode()
+        mode = .photo
     }
     
     func cameraOptionsViewDidSelectVideo(_ cameraOptionsView: CameraStatusBarView) {
         cameraOptionsView.setVideoMode()
+        mode = .video
     }
     
     func cameraOptionsViewDidSelectToggleFlash(_ cameraOptionsView: CameraStatusBarView) {

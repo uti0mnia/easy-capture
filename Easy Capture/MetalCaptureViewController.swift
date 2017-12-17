@@ -88,17 +88,11 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
     }
     
     func draw(in view: MTKView) {
-        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
-        
-        autoreleasepool {
-            guard let texture = texture, let device = device, let commandBuffer = device.makeCommandQueue()?.makeCommandBuffer() else {
-                print("can't draw texture")
-                semaphore.signal()
-                return
-            }
-            
-            render(texture, withCommandBuffer: commandBuffer, device: device)
+        guard let texture = texture, let device = device, let commandBuffer = device.makeCommandQueue()?.makeCommandBuffer() else {
+            print("can't draw texture")
+            return
         }
+        render(texture, withCommandBuffer: commandBuffer, device: device)
     }
     
     private func render(_ texture: MTLTexture, withCommandBuffer commandBuffer: MTLCommandBuffer, device: MTLDevice) {
@@ -106,7 +100,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
             let currentDrawable = metalView?.currentDrawable,
             let renderPipelineState = renderPipelineState,
             let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor) else {
-                semaphore.signal()
+//                semaphore.signal()
                 return
         }
         
@@ -123,7 +117,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
                 return
             }
             strongSelf.didRender(texture: texture)
-            strongSelf.semaphore.signal()
+//            strongSelf.semaphore.signal()
         }
         
         commandBuffer.present(currentDrawable)
