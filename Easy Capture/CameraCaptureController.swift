@@ -119,6 +119,7 @@ class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
         if status == .running {
             captureQueue.async {
                 self.captureSession.stopRunning()
+                self.status = .ready
             }
         }
         

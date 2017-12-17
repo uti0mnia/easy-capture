@@ -90,11 +90,9 @@
 		C924695D1FBCD5F200C33A4A /* Camera View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C96681B61FE71C870018AC32 /* Preview */,
 				C9A12E9C1FA3706C007FC5CF /* MainViewController.swift */,
-				C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */,
-				C9D92B4F1FD63B41001B39B4 /* VideoPreviewViewController.swift */,
 				C918C18F1FC2574800729BC9 /* CameraStatusBarView.swift */,
-				C9D92B531FD64ECD001B39B4 /* PreviewViewController.swift */,
 			);
 			name = "Camera View Controllers";
 			sourceTree = "<group>";
@@ -143,6 +141,16 @@
 				C9A12EA61FA3706C007FC5CF /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C96681B61FE71C870018AC32 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				C9D92B531FD64ECD001B39B4 /* PreviewViewController.swift */,
+				C9285DC91FA5696E00FD38FB /* CapturePreviewViewController.swift */,
+				C9D92B4F1FD63B41001B39B4 /* VideoPreviewViewController.swift */,
+			);
+			name = Preview;
 			sourceTree = "<group>";
 		};
 		C97E80401FC5CA7C00F694E6 /* Camera */ = {

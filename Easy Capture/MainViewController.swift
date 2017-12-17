@@ -137,7 +137,6 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         cameraController.startRecording()
         
         videoTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-            print("fired:\(self.timeParts.seconds), \(self.timeParts.minutes), \(self.timeParts.hours)")
             self.cameraStatusBarView.timerLabel.text = self.timeParts.shortString
             self.timeParts.seconds += 1
         }
@@ -199,9 +198,8 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     func cameraController(_ cameraController: CameraController, didReceiveRecordingAt url: URL) {
         videoPreviewVC.url = url
-        self.present(videoPreviewVC, animated: false) {
-            self.cameraStatusBarView.timerLabel.text = "00:00"
-        }
+        self.present(videoPreviewVC, animated: false, completion: nil)
+        cameraStatusBarView.timerLabel.text = "00:00"
     }
     
     func cameraController(_ cameraController: CameraController, didReceiveRecordingError error: Error) {

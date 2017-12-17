@@ -124,26 +124,6 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
         commandBuffer.commit()
     }
     
-    // MARK: - MetalCaptureSessionDelegate
-    
-//    func metalCameraController(_ metalCameraController: MetalCameraController, didReciveBufferAsTexture texture: MTLTexture) {
-//        self.texture = texture
-//    }
-//
-//    func metalCameraController(_ metalCameraController: MetalCameraController, didFinishRecordingVideoAtURL url: URL) {
-//        PermissionManager.shared.photoPermission() { granted in
-//            PHPhotoLibrary.shared().performChanges({
-//                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url.absoluteURL)
-//            }) { success, error in
-//                if let error = error {
-//                    print(error.localizedDescription)
-//                } else {
-//                    print("success!")
-//                }
-//            }
-//        }
-//    }
-    
 }
 
 

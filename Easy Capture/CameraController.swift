@@ -115,11 +115,16 @@ class CameraController: NSObject, CameraCaptureControllerDelegate, VideoRecorder
     // MARK: - VideoRecorderControllerDelegate
     
     func videoRecorderController(_ videoRecorderController: VideoRecorderController, didFinishRecordingVideoAt url: URL) {
-        delegate?.cameraController(self, didReceiveRecordingAt: url)
+        DispatchQueue.main.async {
+            self.delegate?.cameraController(self, didReceiveRecordingAt: url)
+        }
+        
     }
     
     func videoRecorderController(_ videoRecorderController: VideoRecorderController, didStopRecordingWithError error: Error) {
-        delegate?.cameraController(self, didReceiveRecordingError: error)
+        DispatchQueue.main.async {
+            self.delegate?.cameraController(self, didReceiveRecordingError: error)
+        }
     }
     
 }

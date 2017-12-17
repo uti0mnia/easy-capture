@@ -8,11 +8,7 @@
 
 import UIKit
 
-protocol PreviewViewControllerHandler {
-    func handleSave()
-}
-
-class PreviewViewController: UIViewController, PreviewViewControllerHandler {
+class PreviewViewController: UIViewController {
     
     private var closeButton: UIButton?
     private var saveButton: UIButton?
@@ -53,6 +49,16 @@ class PreviewViewController: UIViewController, PreviewViewControllerHandler {
         view.addSubview(saveButton!)
     }
     
+    public func displayError(message: String?) {
+        let alert = UIAlertController(title: "Uh Oh",
+                                      message: message,
+                                      preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(dismiss)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     private func displayNoPhotoAccess() {
         let alert = UIAlertController(title: "Problem accessing Photos",
                                       message: "You need to give this app permission to access photos in order for it to save.",
@@ -73,7 +79,7 @@ class PreviewViewController: UIViewController, PreviewViewControllerHandler {
         present(alert, animated: true, completion: nil)
     }
     
-    func handleSave() {
+    public func handleSave(completion: @escaping (Bool) -> Void) {
         assertionFailure("Needs to be implemented by subclass")
     }
     
@@ -105,23 +111,14 @@ class PreviewViewController: UIViewController, PreviewViewControllerHandler {
             
             self.saveButton?.isEnabled = false
             self.showActivityIndicator()
-            self.handleSave()
+            self.handleSave() { success in
+                if success {
+                    ToastManager.shared.displayToastMessage("Saved ✔️")
+                } else {
+                    self.displayError(message: "Could not save, please try again.")
+                }
+            }
         }
-    }
-    
-    @objc private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-        hideActivityIndicator()
-        
-        if let error = error {
-            print("Error saving image: \(error.localizedDescription)")
-            let alert = UIAlertController(title: "Couldn't save image", message: "Try again", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "Ok", style: .default, handler: nil)
-            alert.addAction(ok)
-            return
-        }
-        
-        ToastManager.shared.displayToastMessage("Photo saved ✔️")
-        
     }
 }
 
