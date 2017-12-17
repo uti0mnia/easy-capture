@@ -11,6 +11,8 @@ import AVFoundation
 import SnapKit
 
 class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegate, CameraControllerDelegate {
+    private static let startCameraErrorMessage = "Issue starting camera... This shouldn't happen."
+    
     
     public enum CameraMode {
         case photo
@@ -28,6 +30,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     private var mode = CameraMode.video
     
     private var videoTimer: Timer?
+    private var timeParts = SimpleTimeParts()
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -39,15 +42,30 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         setVisuals()
         addConstraints()
         addGestures()
+        addObservers()
         
-        cameraController.startRenderingTextures() { success in
-            guard success else {
-                self.displayError(message: "Issue starting camera... This shouldn't happen.")
-                return
+        self.cameraController.delegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        cameraController.stopCaptureSession()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        cameraController.startCaptureSession() { success in
+            if !success {
+                self.displayError(message: MainViewController.startCameraErrorMessage)
             }
-            
-            self.cameraController.delegate = self
         }
+    }
+    
+    deinit {
+        removeObservers()
+        stopTimer()
     }
     
     private func setVisuals() {
@@ -105,7 +123,6 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     }
     
     private func takePicture() {
-        // TODO - move to class + use different colour types
         guard let cgimage = cameraController.takePicture() else {
             print("picture was nil")
             return
@@ -118,10 +135,35 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     private func startRecording() {
         cameraController.startRecording()
+        
+        videoTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            print("fired:\(self.timeParts.seconds), \(self.timeParts.minutes), \(self.timeParts.hours)")
+            self.cameraStatusBarView.timerLabel.text = self.timeParts.shortString
+            self.timeParts.seconds += 1
+        }
+        videoTimer?.fire()
+        
     }
     
     private func stopRecording() {
         cameraController.stopRecording()
+        
+        stopTimer()
+    }
+    
+    private func stopTimer() {
+        videoTimer?.invalidate()
+        videoTimer = nil
+    }
+    
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillMoveToBackground(_:)), name: .UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillMoveToForeground(_:)), name: .UIApplicationWillEnterForeground, object: nil)
+    }
+    
+    private func removeObservers() {
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
     }
     
     // MARK: - CameraOptionsViewDelegate
@@ -129,11 +171,15 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     func cameraOptionsViewDidSelectCamera(_ cameraOptionsView: CameraStatusBarView) {
         cameraOptionsView.setCameraMode()
+        cameraOptionsView.timerLabel.isHidden = true
+        
         mode = .photo
     }
     
     func cameraOptionsViewDidSelectVideo(_ cameraOptionsView: CameraStatusBarView) {
         cameraOptionsView.setVideoMode()
+        cameraOptionsView.timerLabel.isHidden = false
+        
         mode = .video
     }
     
@@ -142,7 +188,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     }
     
     func cameraOptionsViewDidSelectToggleCamera(_ cameraOptionsView: CameraStatusBarView) {
-        
+        cameraController.toggleCamera()
     }
     
     // MARK: - CameraControllerDelegate
@@ -153,7 +199,9 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     func cameraController(_ cameraController: CameraController, didReceiveRecordingAt url: URL) {
         videoPreviewVC.url = url
-        self.present(videoPreviewVC, animated: true, completion: nil)
+        self.present(videoPreviewVC, animated: false) {
+            self.cameraStatusBarView.timerLabel.text = "00:00"
+        }
     }
     
     func cameraController(_ cameraController: CameraController, didReceiveRecordingError error: Error) {
@@ -161,6 +209,21 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         print("Error recording: \(error.localizedDescription)")
     }
     
+    
+    // MARK: - Notifications
+    
+    @objc private func applicationWillMoveToBackground(_ notification: Notification) {
+        if cameraController.isRecording {
+            cameraController.stopRecording()
+            stopTimer()
+        }
+        
+        cameraController.stopCaptureSession()
+    }
+    
+    @objc private func applicationWillMoveToForeground(_ notification: Notification) {
+        // nothing for now (had to remove some code)
+    }
 }
 
 

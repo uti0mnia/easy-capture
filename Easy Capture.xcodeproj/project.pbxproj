@@ -19,6 +19,7 @@
 		C94F17761FBFDC6C00245A35 /* CameraCaptureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94F17751FBFDC6C00245A35 /* CameraCaptureController.swift */; };
 		C96112631FA3ECB600C1CBC7 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */; };
 		C96112651FA5160D00C1CBC7 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96112641FA5160D00C1CBC7 /* Layout.swift */; };
+		C96681B51FE70DC90018AC32 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96681B41FE70DC90018AC32 /* TimeHelper.swift */; };
 		C97E80421FC89A5400F694E6 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E80411FC89A5400F694E6 /* CameraController.swift */; };
 		C9A0EF071FA790AC008264F0 /* MetalBufferConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */; };
 		C9A0EF091FA79D0B008264F0 /* MetalCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0EF081FA79D0B008264F0 /* MetalCaptureViewController.swift */; };
@@ -46,6 +47,7 @@
 		C94F17751FBFDC6C00245A35 /* CameraCaptureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureController.swift; sourceTree = "<group>"; };
 		C96112621FA3ECB600C1CBC7 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		C96112641FA5160D00C1CBC7 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
+		C96681B41FE70DC90018AC32 /* TimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
 		C97E80411FC89A5400F694E6 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBufferConverter.swift; sourceTree = "<group>"; };
 		C9A0EF081FA79D0B008264F0 /* MetalCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalCaptureViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				C92469621FBCD66000C33A4A /* Permissions */,
 				C924695F1FBCD60D00C33A4A /* Extensions */,
 				C9285DC81FA5201100FD38FB /* Supporting Files */,
+				C96681B41FE70DC90018AC32 /* TimeHelper.swift */,
 			);
 			path = "Easy Capture";
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				C92469681FBCD6D300C33A4A /* Colours.swift in Sources */,
 				C9A12E9D1FA3706C007FC5CF /* MainViewController.swift in Sources */,
 				C9A0EF091FA79D0B008264F0 /* MetalCaptureViewController.swift in Sources */,
+				C96681B51FE70DC90018AC32 /* TimeHelper.swift in Sources */,
 				C924695C1FBCD5EA00C33A4A /* UIView+Shadow.swift in Sources */,
 				C924695A1FBCD5CE00C33A4A /* ToastManager.swift in Sources */,
 				C9A0EF071FA790AC008264F0 /* MetalBufferConverter.swift in Sources */,

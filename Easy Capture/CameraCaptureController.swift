@@ -115,13 +115,11 @@ class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
         }
     }
     
-    public func stop() throws {
+    public func stop() {
         if status == .running {
             captureQueue.async {
                 self.captureSession.stopRunning()
             }
-        } else {
-            throw CameraCaptureError.unknown
         }
         
     }

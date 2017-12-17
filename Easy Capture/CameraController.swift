@@ -33,7 +33,12 @@ class CameraController: NSObject, CameraCaptureControllerDelegate, VideoRecorder
     private lazy var metalBufferConverter = MetalBufferConverter()
     private lazy var metalTextureConverter = MetalTextureConverter()
     
-    public func startRenderingTextures(completion: @escaping (Bool) -> Void) {
+    public func startCaptureSession(completion: @escaping (Bool) -> Void) {
+        guard cameraCaptureController.status != .running else {
+            completion(true)
+            return
+        }
+        
         PermissionManager.shared.cameraPermission() { granted in
             guard granted else {
                 return
@@ -45,10 +50,14 @@ class CameraController: NSObject, CameraCaptureControllerDelegate, VideoRecorder
                 self.cameraCaptureController.delegate = self
                 completion(true)
             } catch {
-                print("Error getting capture controller ")
+                print("Error getting capture controller: \(error.localizedDescription)")
                 completion(false)
             }
         }
+    }
+    
+    public func stopCaptureSession() {
+        cameraCaptureController.stop()
     }
     
     public func takePicture() -> CGImage? {
