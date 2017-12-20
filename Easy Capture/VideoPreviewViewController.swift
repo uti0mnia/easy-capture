@@ -18,7 +18,6 @@ class VideoPreviewViewController: PreviewViewController {
             if let url = url {
                 self.player.replaceCurrentItem(with: AVPlayerItem(url: url))
                 self.player.play()
-                playerLayer.player = player
                 
                 removeObservers()
                 addObservers()
@@ -26,15 +25,15 @@ class VideoPreviewViewController: PreviewViewController {
         }
     }
     private var player = AVPlayer()
-    private var playerLayer = AVPlayerLayer(layer: AVPlayerLayer())
+    private var playerLayer: AVPlayerLayer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        playerLayer.frame = view.bounds
-        playerLayer.videoGravity = .resizeAspectFill
-        playerLayer.backgroundColor = UIColor.orange.cgColor
-        view.layer.insertSublayer(playerLayer, at: 0)
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer?.frame = view.bounds
+        playerLayer?.videoGravity = .resizeAspectFill
+        view.layer.insertSublayer(playerLayer!, at: 0)
     }
     
     deinit {
@@ -69,9 +68,7 @@ class VideoPreviewViewController: PreviewViewController {
     }
     
     private func removeObservers() {
-        NotificationCenter.default.removeObserver(self,
-                                                  name: .AVPlayerItemDidPlayToEndTime,
-                                                  object: self.player.currentItem)
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: self.player.currentItem)
     }
     
     @objc private func playerItemDidReachEnd(notification: NSNotification) {
