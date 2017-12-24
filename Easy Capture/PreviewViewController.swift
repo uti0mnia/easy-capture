@@ -117,6 +117,7 @@ class PreviewViewController: UIViewController {
                 } else {
                     self.displayError(message: "Could not save, please try again.")
                 }
+                self.hideActivityIndicator()
             }
         }
     }

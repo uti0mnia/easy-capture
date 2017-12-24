@@ -31,7 +31,7 @@ extension UIView {
     }
     
     public func u0_addBlackImageShadow() {
-        layer.shadowOffset = CGSize.zero
+        layer.shadowOffset = CGSize.init(width: 1, height: 1)
         layer.shadowColor = UIColor.white.cgColor
         layer.shadowOpacity = 0.9
         layer.shadowRadius = 1

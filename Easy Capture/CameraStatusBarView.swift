@@ -25,6 +25,7 @@ class CameraStatusBarView: UIView {
     private var videoImage: UIImageView!
     private var toggleCameraImage: UIImageView!
     private var flashImage: UIImageView!
+    private var recordingView = UIView()
     
     public var timerLabel = UILabel()
     
@@ -99,6 +100,11 @@ class CameraStatusBarView: UIView {
             make.top.bottom.equalToSuperview()
             make.width.equalTo(flashImage.snp.height)
         }
+        
+//        recordingView.snp.makeConstraints() { make in
+//            make.centerX.equalTo(self.snp.centerX)
+//            make.right.equalTo(timerLabel.snp.left).offset(-Layout.padding)
+//        }
     }
     
     public func setFlash(on: Bool) {
