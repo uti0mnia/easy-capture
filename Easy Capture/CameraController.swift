@@ -92,7 +92,9 @@ class CameraController: NSObject, CameraCaptureControllerDelegate, VideoRecorder
             // TODO: Handle swapping camera while recording
             return
         }
-        try? cameraCaptureController.toggleCameraIfPossible()
+        DispatchQueue.global(qos: .userInitiated).async {
+            try? self.cameraCaptureController.toggleCameraIfPossible()
+        }
     }
     
     // MARK: - CameraCaptureControllerDelegate

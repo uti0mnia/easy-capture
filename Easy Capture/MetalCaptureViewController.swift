@@ -16,6 +16,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
     
     public var texture: MTLTexture?
     private var metalView: MTKView?
+    private var commandQueue: MTLCommandQueue?
     
     private var device = MTLCreateSystemDefaultDevice()
     private var renderPipelineState: MTLRenderPipelineState?
@@ -24,7 +25,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
         super.viewDidLoad()
         
         initMetalView()
-        initRenderPipelineState()
+        initMetalObjects()
     }
     
     override func loadView() {
@@ -43,7 +44,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
         view.insertSubview(metalView!, at: 0)
     }
     
-    private func initRenderPipelineState() {
+    private func initMetalObjects() {
         guard let device = device, let library = device.makeDefaultLibrary() else {
             return
         }
@@ -63,6 +64,8 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
             assertionFailure("Failed creating a render state pipeline. Can't render the texture without one.")
             return
         }
+        
+        commandQueue = device.makeCommandQueue()
     }
     
     public func displayError(message: String?) {
@@ -88,11 +91,16 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
     }
     
     func draw(in view: MTKView) {
-        guard let texture = texture, let device = device, let commandBuffer = device.makeCommandQueue()?.makeCommandBuffer() else {
-            print("can't draw texture")
-            return
+        let result = semaphore.wait(timeout: DispatchTime.distantFuture)
+        
+        autoreleasepool {
+            guard result == .success, let texture = texture, let device = device, let commandBuffer = commandQueue?.makeCommandBuffer() else {
+                print("can't draw texture")
+                semaphore.signal()
+                return
+            }
+            render(texture, withCommandBuffer: commandBuffer, device: device)
         }
-        render(texture, withCommandBuffer: commandBuffer, device: device)
     }
     
     private func render(_ texture: MTLTexture, withCommandBuffer commandBuffer: MTLCommandBuffer, device: MTLDevice) {
@@ -100,7 +108,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
             let currentDrawable = metalView?.currentDrawable,
             let renderPipelineState = renderPipelineState,
             let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor) else {
-//                semaphore.signal()
+                semaphore.signal()
                 return
         }
         
@@ -112,12 +120,12 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
         encoder.endEncoding()
         
         // Called after the command buffer is scheduled
-        commandBuffer.addScheduledHandler { [weak self] buffer in
+        commandBuffer.addScheduledHandler { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
             strongSelf.didRender(texture: texture)
-//            strongSelf.semaphore.signal()
+            strongSelf.semaphore.signal()
         }
         
         commandBuffer.present(currentDrawable)
