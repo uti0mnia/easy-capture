@@ -12,7 +12,7 @@ import SnapKit
 
 class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegate, CameraControllerDelegate {
     private static let startCameraErrorMessage = "Issue starting camera... This shouldn't happen."
-    
+    private static let flashTime: TimeInterval = 0.3
     
     public enum CameraMode {
         case photo
@@ -21,6 +21,8 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     private var recordImage = UIImageView()
     private var cameraStatusBarView = CameraStatusBarView()
+    
+    private var flashView = UIView()
     
     lazy private var capturePreviewVC = CapturePreviewViewController()
     lazy private var videoPreviewVC = VideoPreviewViewController()
@@ -69,6 +71,12 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     }
     
     private func setVisuals() {
+        flashView.backgroundColor = Colours.flashColour
+        flashView.alpha = 0
+        flashView.frame = view.bounds
+        flashView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        view.addSubview(flashView)
+        
         recordImage.image = #imageLiteral(resourceName: "record")
         recordImage.contentMode = .scaleAspectFit
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapRecordButton(_:)))
@@ -129,8 +137,9 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         }
         
         capturePreviewVC.imageView.image = UIImage(cgImage: cgimage)
-        
-        present(capturePreviewVC, animated: false, completion: nil)
+        showScreenFlash {
+            self.present(self.capturePreviewVC, animated: false, completion: nil)
+        }
     }
     
     private func startRecording() {
@@ -153,6 +162,16 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     private func stopTimer() {
         videoTimer?.invalidate()
         videoTimer = nil
+    }
+    
+    private func showScreenFlash(completion: @escaping () -> Void) {
+        flashView.alpha = 1
+        
+        UIView.animate(withDuration: MainViewController.flashTime, animations: {
+            self.flashView.alpha = 0
+        }) {_ in
+            completion()
+        }
     }
     
     private func addObservers() {
@@ -220,7 +239,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     }
     
     @objc private func applicationWillMoveToForeground(_ notification: Notification) {
-        // nothing for now (had to remove some code)
+        cameraController.startRecording()
     }
 }
 

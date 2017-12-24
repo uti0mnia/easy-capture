@@ -17,4 +17,6 @@ class Colours {
     public static let  toastMessage = UIColor.flatBlack
 
     public static let toastBackground = UIColor.flatWhite
+    
+    public static let flashColour = UIColor(hexString: "FEFEFE", withAlpha: 1)
 }

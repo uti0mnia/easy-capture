@@ -44,6 +44,7 @@ class CameraStatusBarView: UIView {
     
     private func addSubviews() {
         timerLabel.text = "00:00"
+        timerLabel.font = Fonts.text
         timerLabel.textAlignment = .center
         timerLabel.u0_addBlackTextShadow()
         addSubview(timerLabel)
