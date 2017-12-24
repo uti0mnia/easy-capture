@@ -10,7 +10,7 @@ import ChameleonFramework
 
 class Colours {
     
-    public static let selectedOptionTint = UIColor.flatGreen
+    public static let selectedOptionTint = UIColor.flatGreenDark
     
     public static let unselectedOptionTint = UIColor.black
     
@@ -19,4 +19,6 @@ class Colours {
     public static let toastBackground = UIColor.flatWhite
     
     public static let flashColour = UIColor(hexString: "FEFEFE", withAlpha: 1)
+    
+    public static let overlayBackgroundColour = UIColor(hexString: "FEFEFE", withAlpha: 0.25)
 }

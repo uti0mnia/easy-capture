@@ -23,5 +23,5 @@ class Layout {
     
     public static let toastMessageHeight: CGFloat = 40
     
-    public static let optionViewHeight: CGFloat = 30
+    public static let optionViewHeight: CGFloat = 50
 }

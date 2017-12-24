@@ -85,6 +85,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         view.addSubview(recordImage)
         
         cameraStatusBarView.delegate = self
+        cameraStatusBarView.backgroundColor = Colours.overlayBackgroundColour
         view.addSubview(cameraStatusBarView)
         
         if mode == .photo {
@@ -96,7 +97,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     private func addConstraints() {
         cameraStatusBarView.snp.makeConstraints() { make in
-            make.top.left.right.equalToSuperview().inset(Layout.padding)
+            make.top.left.right.equalToSuperview()
             make.height.equalTo(Layout.optionViewHeight)
         }
         
