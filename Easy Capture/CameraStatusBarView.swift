@@ -130,7 +130,7 @@ class CameraStatusBarView: UIView {
         cameraImage.tintColor = Colours.unselectedOptionTint
         videoImage.tintColor = Colours.selectedOptionTint
         timerLabel.isHidden = false
-        recordingView.isHidden = false
+        recordingView.isHidden = true
     }
     
     @objc private func didTapIcon(_ sender: UITapGestureRecognizer) {

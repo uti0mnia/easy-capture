@@ -9,10 +9,15 @@
 import UIKit
 import AVFoundation
 import SnapKit
+import MediaPlayer
 
 class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegate, CameraControllerDelegate {
     private static let startCameraErrorMessage = "Issue starting camera... This shouldn't happen."
     private static let flashTime: TimeInterval = 0.3
+    
+    private enum ObserverKeys: String {
+        case outputVolume = "outputVolume"
+    }
     
     public enum CameraMode: Int {
         case photo = 0
@@ -90,6 +95,18 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         stopTimer()
     }
     
+    private func listenToVolumeButton(){
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(true)
+            audioSession.addObserver(self, forKeyPath: ObserverKeys.outputVolume.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
+            let volumeView = MPVolumeView(frame: CGRect.zero)
+            view.addSubview(volumeView)
+        } catch {
+            print("Error setting audio session \(error.localizedDescription)")
+        }
+    }
+    
     private func setVisuals() {
         flashView.backgroundColor = Colours.flashColour
         flashView.alpha = 0
@@ -143,6 +160,10 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     }
     
     @objc private func didTapRecordButton(_ sender: UITapGestureRecognizer) {
+        handleRecordAction()
+    }
+    
+    private func handleRecordAction() {
         switch mode {
         case .photo:
             takePicture()
@@ -167,6 +188,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
             self.present(self.capturePreviewVC, animated: false, completion: nil)
         }
     }
+    
     
     private func startRecording() {
         cameraController.startRecording()
@@ -210,11 +232,13 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillMoveToBackground(_:)), name: .UIApplicationWillResignActive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillMoveToForeground(_:)), name: .UIApplicationDidBecomeActive, object: nil)
+        listenToVolumeButton()
     }
     
     private func removeObservers() {
         NotificationCenter.default.removeObserver(self, name: .UIApplicationWillResignActive, object: nil)
         NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive, object: nil)
+        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: ObserverKeys.outputVolume.rawValue, context: nil)
     }
     
     // MARK: - CameraOptionsViewDelegate
@@ -274,6 +298,14 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
             if !success {
                 self.displayError(message: MainViewController.startCameraErrorMessage)
             }
+        }
+    }
+    
+    // MARK: - KVO
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == ObserverKeys.outputVolume.rawValue {
+            handleRecordAction()
         }
     }
 }
