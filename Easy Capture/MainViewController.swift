@@ -95,8 +95,12 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         cameraStatusBarView.backgroundColor = Colours.overlayBackgroundColour
         view.addSubview(cameraStatusBarView)
         
+        setCameraMode()
+    }
+    
+    private func setCameraMode() {
         if mode == .photo {
-            cameraStatusBarView.setCameraMode()
+            cameraStatusBarView.setPhotoMode()
         } else {
             cameraStatusBarView.setVideoMode()
         }
@@ -191,29 +195,25 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillMoveToBackground(_:)), name: .UIApplicationWillResignActive, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillMoveToForeground(_:)), name: .UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillMoveToForeground(_:)), name: .UIApplicationDidBecomeActive, object: nil)
     }
     
     private func removeObservers() {
         NotificationCenter.default.removeObserver(self, name: .UIApplicationWillResignActive, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive, object: nil)
     }
     
     // MARK: - CameraOptionsViewDelegate
     
     
     func cameraOptionsViewDidSelectCamera(_ cameraOptionsView: CameraStatusBarView) {
-        cameraOptionsView.setCameraMode()
-        cameraOptionsView.timerLabel.isHidden = true
-        
         mode = .photo
+        setCameraMode()
     }
     
     func cameraOptionsViewDidSelectVideo(_ cameraOptionsView: CameraStatusBarView) {
-        cameraOptionsView.setVideoMode()
-        cameraOptionsView.timerLabel.isHidden = false
-        
         mode = .video
+        setCameraMode()
     }
     
     func cameraOptionsViewDidSelectToggleFlash(_ cameraOptionsView: CameraStatusBarView) {
@@ -254,10 +254,11 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     }
     
     @objc private func applicationWillMoveToForeground(_ notification: Notification) {
+        setCameraMode()
+        
         cameraController.startCaptureSession() { success in
-            guard success else {
-                self.displayError(message: "Problem starting the camera. Try quitting the app.")
-                return
+            if !success {
+                self.displayError(message: MainViewController.startCameraErrorMessage)
             }
         }
     }

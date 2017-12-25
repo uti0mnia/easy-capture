@@ -2,6 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).Photo</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>photo</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Take Picture</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).Video</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>video</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Record Video</string>
+        </dict>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

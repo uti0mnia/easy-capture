@@ -119,14 +119,18 @@ class CameraStatusBarView: UIView {
         flashImage.image = on ? #imageLiteral(resourceName: "flashon") : #imageLiteral(resourceName: "flashoff")
     }
     
-    public func setCameraMode() {
+    public func setPhotoMode() {
         cameraImage.tintColor = Colours.selectedOptionTint
         videoImage.tintColor = Colours.unselectedOptionTint
+        timerLabel.isHidden = true
+        recordingView.isHidden = true
     }
     
     public func setVideoMode() {
         cameraImage.tintColor = Colours.unselectedOptionTint
         videoImage.tintColor = Colours.selectedOptionTint
+        timerLabel.isHidden = false
+        recordingView.isHidden = false
     }
     
     @objc private func didTapIcon(_ sender: UITapGestureRecognizer) {
