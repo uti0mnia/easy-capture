@@ -9,7 +9,7 @@
 import Foundation
 
 struct SimpleTimeParts {
-    public var seconds: Int {
+    public var seconds: Int = 0 {
         didSet {
             guard seconds >= 0 else {
                 seconds = 0
@@ -23,7 +23,7 @@ struct SimpleTimeParts {
         }
     }
     
-    public var minutes: Int {
+    public var minutes: Int = 0 {
         didSet {
             guard minutes >= 0 else {
                 minutes = 0
@@ -37,7 +37,7 @@ struct SimpleTimeParts {
         }
     }
     
-    public var hours: Int {
+    public var hours: Int = 0 {
         didSet {
             if hours < 0 {
                 hours = 0
@@ -52,11 +52,5 @@ struct SimpleTimeParts {
     
     public var fullString: String {
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-    }
-    
-    init() {
-        hours = 0
-        minutes = 0
-        seconds = 0
     }
 }

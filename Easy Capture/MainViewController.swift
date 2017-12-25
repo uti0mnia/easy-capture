@@ -14,9 +14,9 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     private static let startCameraErrorMessage = "Issue starting camera... This shouldn't happen."
     private static let flashTime: TimeInterval = 0.3
     
-    public enum CameraMode {
-        case photo
-        case video
+    public enum CameraMode: Int {
+        case photo = 0
+        case video = 1
     }
     
     private var recordImage = UIImageView()
@@ -29,7 +29,14 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     private let cameraController = CameraController()
     
-    private var mode = CameraMode.video
+    private var mode: CameraMode {
+        get {
+            return UserDefaultsManager.shared.getLastCameraMode() ?? CameraMode.photo
+        }
+        set {
+            UserDefaultsManager.shared.setLastCameraMode(newValue)
+        }
+    }
     
     private var videoTimer: Timer?
     private var timeParts = SimpleTimeParts()
@@ -153,6 +160,8 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         }
         videoTimer?.fire()
         
+        cameraStatusBarView.isUserInteractionEnabled = false
+        
     }
     
     private func stopRecording() {
@@ -160,11 +169,14 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         cameraStatusBarView.setRecording(on: false)
         
         stopTimer()
+        
+        cameraStatusBarView.isUserInteractionEnabled = true
     }
     
     private func stopTimer() {
         videoTimer?.invalidate()
         videoTimer = nil
+        self.timeParts = SimpleTimeParts()
     }
     
     private func showScreenFlash(completion: @escaping () -> Void) {
@@ -242,7 +254,12 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     }
     
     @objc private func applicationWillMoveToForeground(_ notification: Notification) {
-        cameraController.startRecording()
+        cameraController.startCaptureSession() { success in
+            guard success else {
+                self.displayError(message: "Problem starting the camera. Try quitting the app.")
+                return
+            }
+        }
     }
 }
 
