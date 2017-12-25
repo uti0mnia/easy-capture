@@ -145,6 +145,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     private func startRecording() {
         cameraController.startRecording()
+        cameraStatusBarView.setRecording(on: true)
         
         videoTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             self.cameraStatusBarView.timerLabel.text = self.timeParts.shortString
@@ -156,6 +157,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     private func stopRecording() {
         cameraController.stopRecording()
+        cameraStatusBarView.setRecording(on: false)
         
         stopTimer()
     }

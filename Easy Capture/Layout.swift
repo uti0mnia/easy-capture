@@ -24,4 +24,6 @@ class Layout {
     public static let toastMessageHeight: CGFloat = 40
     
     public static let optionViewHeight: CGFloat = 50
+    
+    public static let recordingViewSize = CGSize(width: 10, height: 10)
 }

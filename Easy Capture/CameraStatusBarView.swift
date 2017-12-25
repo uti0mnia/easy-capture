@@ -25,7 +25,7 @@ class CameraStatusBarView: UIView {
     private var videoImage: UIImageView!
     private var toggleCameraImage: UIImageView!
     private var flashImage: UIImageView!
-    private var recordingView = UIView()
+    private var recordingView = CircleView()
     
     public var timerLabel = UILabel()
     
@@ -43,6 +43,9 @@ class CameraStatusBarView: UIView {
     }
     
     private func addSubviews() {
+        addSubview(recordingView)
+        recordingView.isHidden = true
+        
         timerLabel.text = "00:00"
         timerLabel.font = Fonts.subtitle
         timerLabel.textAlignment = .center
@@ -72,9 +75,16 @@ class CameraStatusBarView: UIView {
     }
     
     private func addConstraints() {
+        recordingView.snp.makeConstraints() { make in
+            make.height.width.equalTo(Layout.recordingViewSize.height)
+            make.top.equalToSuperview().offset(Layout.padding)
+            make.centerX.equalTo(timerLabel.snp.centerX)
+        }
+        
         timerLabel.snp.makeConstraints() { make in
             make.left.equalTo(videoImage.snp.right).offset(Layout.padding)
-            make.top.bottom.equalToSuperview().inset(Layout.padding)
+            make.top.equalTo(recordingView.snp.bottom)
+            make.bottom.equalToSuperview().inset(Layout.padding)
             make.right.equalTo(flashImage.snp.left).offset(-Layout.padding)
         }
         
@@ -99,11 +109,10 @@ class CameraStatusBarView: UIView {
             make.top.bottom.equalToSuperview().inset(Layout.padding)
             make.width.equalTo(flashImage.snp.height)
         }
-        
-//        recordingView.snp.makeConstraints() { make in
-//            make.centerX.equalTo(self.snp.centerX)
-//            make.right.equalTo(timerLabel.snp.left).offset(-Layout.padding)
-//        }
+    }
+    
+    public func setRecording(on: Bool) {
+        recordingView.isHidden = !on
     }
     
     public func setFlash(on: Bool) {
