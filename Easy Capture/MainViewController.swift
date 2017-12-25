@@ -41,6 +41,19 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     private var videoTimer: Timer?
     private var timeParts = SimpleTimeParts()
     
+    private var imageOrientation: UIImageOrientation {
+        switch UIDevice.current.orientation {
+        case .portrait:
+            return .up
+        case .landscapeLeft:
+            return .left
+        case .landscapeRight:
+            return .right
+        default:
+            return .up
+        }
+    }
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -149,6 +162,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         }
         
         capturePreviewVC.imageView.image = UIImage(cgImage: cgimage)
+        capturePreviewVC.imageOrientation = imageOrientation
         showScreenFlash {
             self.present(self.capturePreviewVC, animated: false, completion: nil)
         }

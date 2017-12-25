@@ -14,6 +14,8 @@ class CapturePreviewViewController: PreviewViewController {
     
     private var saveHandler: ((Bool) -> Void)?
     
+    public var imageOrientation = UIImageOrientation.up
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,13 +27,14 @@ class CapturePreviewViewController: PreviewViewController {
     }
     
     public override func handleSave(completion: @escaping (Bool) -> Void) {
-        guard let image = imageView.image else {
+        guard let cgImage = imageView.image?.cgImage else {
             completion(false)
             return
         }
         
         saveHandler = completion
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
+        let imageToSave = UIImage(cgImage: cgImage, scale: 1.0, orientation: imageOrientation)
+        UIImageWriteToSavedPhotosAlbum(imageToSave, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
     
