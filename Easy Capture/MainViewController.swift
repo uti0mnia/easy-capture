@@ -293,6 +293,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         }
         
         cameraController.stopCaptureSession()
+        UIApplication.shared.isIdleTimerDisabled = false
     }
     
     @objc private func applicationWillMoveToForeground(_ notification: Notification) {
@@ -303,6 +304,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
                 self.displayError(message: MainViewController.startCameraErrorMessage)
             }
         }
+        UIApplication.shared.isIdleTimerDisabled = true
     }
     
     // MARK: - KVO
