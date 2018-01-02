@@ -7,6 +7,7 @@
 //
 
 import AVFoundation
+import Foundation
 
 protocol VideoRecorderControllerDelegate: class {
     func videoRecorderController(_ videoRecorderController: VideoRecorderController, didFinishRecordingVideoAt url: URL)
@@ -30,7 +31,7 @@ class VideoRecorderController: NSObject {
     
     public weak var delegate: VideoRecorderControllerDelegate?
     
-    private(set) var status = VideoRecorderControllerStatus.unknown
+    private(set) var status = VideoRecorderControllerStatus.ready
     
     private let tempURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("movie.mov")
     
@@ -40,8 +41,9 @@ class VideoRecorderController: NSObject {
     private var assetWriterQueue = DispatchQueue(label: "com.uti0mnia.easy-capture.metalcameracontroller.assetwriterqueue")
     
     
+    
     public func startRecording(fromOutput output: AVCaptureVideoDataOutput) throws {
-        guard status != .ready else {
+        guard status == .ready else {
             throw RecordingError.recorderNotReady
         }
         
@@ -53,6 +55,7 @@ class VideoRecorderController: NSObject {
             let settings = output.recommendedVideoSettingsForAssetWriter(writingTo: .mov)
             let videoAssetWriter = AVAssetWriterInput(mediaType: .video, outputSettings: settings)
             videoAssetWriter.expectsMediaDataInRealTime = true
+            videoAssetWriter.transform = OrientationHelper.shared.getAssetWriterAffineTransform()
             
             if assetWriter.canAdd(videoAssetWriter) {
                 assetWriter.add(videoAssetWriter)

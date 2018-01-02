@@ -46,18 +46,6 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     private var videoTimer: Timer?
     private var timeParts = SimpleTimeParts()
     
-    private var imageOrientation: UIImageOrientation {
-        switch UIDevice.current.orientation {
-        case .portrait:
-            return .up
-        case .landscapeLeft:
-            return .left
-        case .landscapeRight:
-            return .right
-        default:
-            return .up
-        }
-    }
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -100,7 +88,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         do {
             try audioSession.setActive(true)
             audioSession.addObserver(self, forKeyPath: ObserverKeys.outputVolume.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-            let volumeView = MPVolumeView(frame: CGRect.zero)
+            let volumeView = MPVolumeView(frame: CGRect(x: -100, y: -100, width: 0, height: 0)) // TODO: better way to gtfo 
             view.addSubview(volumeView)
         } catch {
             print("Error setting audio session \(error.localizedDescription)")
@@ -183,7 +171,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         }
         
         capturePreviewVC.imageView.image = UIImage(cgImage: cgimage)
-        capturePreviewVC.imageOrientation = imageOrientation
+        capturePreviewVC.imageOrientation = OrientationHelper.shared.imageOrientation
         showScreenFlash {
             self.present(self.capturePreviewVC, animated: false, completion: nil)
         }
@@ -191,7 +179,10 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     
     private func startRecording() {
-        cameraController.startRecording()
+        guard cameraController.startRecording() else {
+            displayError(message: "Can't record right now. Try restarting the app - this shouldn't happen.")
+            return
+        }
         cameraStatusBarView.setRecording(on: true)
         
         videoTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in

@@ -69,17 +69,20 @@ class CameraController: NSObject, CameraCaptureControllerDelegate, VideoRecorder
         return metalTextureConverter.convertToCGImage(texture)
     }
     
-    public func startRecording() {
+    public func startRecording()-> Bool {
         guard authorized, let output = cameraCaptureController.outputData else {
-            return
+            return false
         }
         
         do {
             try videoRecorderController.startRecording(fromOutput: output)
             isRecording = true
         } catch {
-            print("could't start recording")
+            print("could't start recording: \(error.localizedDescription)")
+            return false
         }
+        
+        return true
     }
     
     public func stopRecording() {

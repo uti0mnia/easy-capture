@@ -22,6 +22,7 @@
 		C96681B51FE70DC90018AC32 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96681B41FE70DC90018AC32 /* TimeHelper.swift */; };
 		C966F5731FF06707009E6353 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C966F5721FF06707009E6353 /* CircleView.swift */; };
 		C966F5761FF19C1D009E6353 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C966F5751FF19C1D009E6353 /* UserDefaultsManager.swift */; };
+		C966F5781FF1C1CE009E6353 /* OrientationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C966F5771FF1C1CE009E6353 /* OrientationHelper.swift */; };
 		C97E80421FC89A5400F694E6 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E80411FC89A5400F694E6 /* CameraController.swift */; };
 		C9A0EF071FA790AC008264F0 /* MetalBufferConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */; };
 		C9A0EF091FA79D0B008264F0 /* MetalCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A0EF081FA79D0B008264F0 /* MetalCaptureViewController.swift */; };
@@ -52,6 +53,7 @@
 		C96681B41FE70DC90018AC32 /* TimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
 		C966F5721FF06707009E6353 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		C966F5751FF19C1D009E6353 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		C966F5771FF1C1CE009E6353 /* OrientationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationHelper.swift; sourceTree = "<group>"; };
 		C97E80411FC89A5400F694E6 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		C9A0EF061FA790AC008264F0 /* MetalBufferConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBufferConverter.swift; sourceTree = "<group>"; };
 		C9A0EF081FA79D0B008264F0 /* MetalCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalCaptureViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				C96681B41FE70DC90018AC32 /* TimeHelper.swift */,
 				C966F5721FF06707009E6353 /* CircleView.swift */,
 				C966F5751FF19C1D009E6353 /* UserDefaultsManager.swift */,
+				C966F5771FF1C1CE009E6353 /* OrientationHelper.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				C96112631FA3ECB600C1CBC7 /* PermissionManager.swift in Sources */,
 				C918C1901FC2574800729BC9 /* CameraStatusBarView.swift in Sources */,
 				C92469561FBCBF6300C33A4A /* MetalTextureConverter.swift in Sources */,
+				C966F5781FF1C1CE009E6353 /* OrientationHelper.swift in Sources */,
 				C9A12E9B1FA3706C007FC5CF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

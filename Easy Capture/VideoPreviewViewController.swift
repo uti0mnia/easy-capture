@@ -32,8 +32,14 @@ class VideoPreviewViewController: PreviewViewController {
         
         playerLayer = AVPlayerLayer(player: player)
         playerLayer?.frame = view.bounds
-        playerLayer?.videoGravity = .resizeAspectFill
+        playerLayer?.videoGravity = .resizeAspect
         view.layer.insertSublayer(playerLayer!, at: 0)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
     }
     
     deinit {
