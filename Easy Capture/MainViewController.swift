@@ -137,7 +137,6 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
                 make.bottom.equalTo(view.snp.top).offset(Layout.optionViewHeight)
             }
             make.left.right.equalToSuperview()
-            make.height.equalTo(Layout.optionViewHeight)
         }
         
         recordImage.snp.makeConstraints() { make in

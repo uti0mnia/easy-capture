@@ -21,11 +21,11 @@ class ToastManager {
     
     public func displayToastMessage(_ message: String, on parentViewController: UIViewController? = nil, tapHandler: (()-> Void)? = nil) {
         var config = SwiftMessages.Config()
-        config.presentationStyle = .top
-        if parentViewController != nil {
-            config.presentationContext = .viewController(parentViewController!)
+        config.presentationStyle = .center
+        if let parentViewController = parentViewController {
+            config.presentationContext = .viewController(parentViewController)
         } else {
-            config.presentationContext = .window(windowLevel: UIWindowLevelStatusBar)
+            config.presentationContext = .window(windowLevel: UIWindowLevelNormal)
         }
         config.duration = .seconds(seconds: ToastManager.defaultDuration)
         

@@ -17,11 +17,11 @@ class Layout {
     
     public static let activityIndicatorSize = CGSize.init(width: 50, height: 50)
     
-    public static let toastCornerRadius: CGFloat = 4
+    public static let toastCornerRadius: CGFloat = 3
     
     public static let toastMargin = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
     
-    public static let toastMessageHeight: CGFloat = 40
+    public static let toastMessageHeight: CGFloat = 60
     
     public static let optionViewHeight: CGFloat = 50
     

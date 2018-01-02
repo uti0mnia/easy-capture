@@ -77,7 +77,7 @@ class CameraStatusBarView: UIView {
     private func addConstraints() {
         recordingView.snp.makeConstraints() { make in
             make.height.width.equalTo(Layout.recordingViewSize.height)
-            make.bottom.equalTo(timerLabel.snp.top).offset(-Layout.padding)
+            make.top.equalTo(cameraImage)
             make.centerX.equalTo(timerLabel.snp.centerX)
         }
         

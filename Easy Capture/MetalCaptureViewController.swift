@@ -97,7 +97,6 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
         
         autoreleasepool {
             guard result == .success, let texture = texture, let device = device, let commandBuffer = commandQueue?.makeCommandBuffer() else {
-                print("can't draw texture")
                 semaphore.signal()
                 return
             }
