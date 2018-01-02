@@ -48,6 +48,9 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     
     override var prefersStatusBarHidden: Bool {
+        if UIDevice.current.isiPhoneX {
+            return false
+        }
         return true
     }
     
@@ -126,12 +129,23 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     
     private func addConstraints() {
         cameraStatusBarView.snp.makeConstraints() { make in
-            make.top.left.right.equalToSuperview()
+            if #available(iOS 11.0, *) {
+                make.top.equalToSuperview()
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top).offset(Layout.optionViewHeight)
+            } else {
+                make.top.equalToSuperview()
+                make.bottom.equalTo(view.snp.top).offset(Layout.optionViewHeight)
+            }
+            make.left.right.equalToSuperview()
             make.height.equalTo(Layout.optionViewHeight)
         }
         
         recordImage.snp.makeConstraints() { make in
-            make.bottom.equalToSuperview().offset(-Layout.padding)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(view.safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalToSuperview().offset(-Layout.padding)
+            }
             make.centerX.equalToSuperview()
             make.height.width.equalTo(Layout.recordButtonSide)
         }

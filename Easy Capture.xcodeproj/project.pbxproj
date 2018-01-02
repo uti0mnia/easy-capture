@@ -35,6 +35,7 @@
 		C9C66B281FC0A36C006E9E25 /* VideoRecorderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C66B271FC0A36C006E9E25 /* VideoRecorderController.swift */; };
 		C9D92B501FD63B41001B39B4 /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D92B4F1FD63B41001B39B4 /* VideoPreviewViewController.swift */; };
 		C9D92B541FD64ECD001B39B4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D92B531FD64ECD001B39B4 /* PreviewViewController.swift */; };
+		C9FCECA31FFBD76500922C8B /* UIDevice+model.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FCECA21FFBD76500922C8B /* UIDevice+model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		C9C66B271FC0A36C006E9E25 /* VideoRecorderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderController.swift; sourceTree = "<group>"; };
 		C9D92B4F1FD63B41001B39B4 /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
 		C9D92B531FD64ECD001B39B4 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		C9FCECA21FFBD76500922C8B /* UIDevice+model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+model.swift"; sourceTree = "<group>"; };
 		E225B7EC8046A02A19A3F0A2 /* Pods-Easy Capture.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Easy Capture.release.xcconfig"; path = "Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture.release.xcconfig"; sourceTree = "<group>"; };
 		F4C5B792E75787714152DE69 /* Pods_Easy_Capture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Easy_Capture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				C924695B1FBCD5EA00C33A4A /* UIView+Shadow.swift */,
+				C9FCECA21FFBD76500922C8B /* UIDevice+model.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				C918C1901FC2574800729BC9 /* CameraStatusBarView.swift in Sources */,
 				C92469561FBCBF6300C33A4A /* MetalTextureConverter.swift in Sources */,
 				C966F5781FF1C1CE009E6353 /* OrientationHelper.swift in Sources */,
+				C9FCECA31FFBD76500922C8B /* UIDevice+model.swift in Sources */,
 				C9A12E9B1FA3706C007FC5CF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

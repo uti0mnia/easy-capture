@@ -77,7 +77,7 @@ class CameraStatusBarView: UIView {
     private func addConstraints() {
         recordingView.snp.makeConstraints() { make in
             make.height.width.equalTo(Layout.recordingViewSize.height)
-            make.top.equalToSuperview().offset(Layout.padding)
+            make.bottom.equalTo(timerLabel.snp.top).offset(-Layout.padding)
             make.centerX.equalTo(timerLabel.snp.centerX)
         }
         
@@ -89,24 +89,28 @@ class CameraStatusBarView: UIView {
         }
         
         cameraImage.snp.makeConstraints() { make in
-            make.left.top.bottom.equalToSuperview().inset(Layout.padding)
+            make.height.equalTo(Layout.optionButtonHeight)
+            make.left.bottom.equalToSuperview().inset(Layout.padding)
             make.width.equalTo(cameraImage.snp.height)
         }
         
         videoImage.snp.makeConstraints() { make in
+            make.height.equalTo(Layout.optionButtonHeight)
             make.left.equalTo(cameraImage.snp.right).offset(Layout.padding)
-            make.top.bottom.equalToSuperview().inset(Layout.padding)
+            make.bottom.equalToSuperview().inset(Layout.padding)
             make.width.equalTo(videoImage.snp.height)
         }
         
         toggleCameraImage.snp.makeConstraints() { make in
-            make.right.top.bottom.equalToSuperview().inset(Layout.padding)
+            make.height.equalTo(Layout.optionButtonHeight)
+            make.right.bottom.equalToSuperview().inset(Layout.padding)
             make.width.equalTo(toggleCameraImage.snp.height)
         }
         
         flashImage.snp.makeConstraints() { make in
+            make.height.equalTo(Layout.optionButtonHeight)
             make.right.equalTo(toggleCameraImage.snp.left).offset(-Layout.padding)
-            make.top.bottom.equalToSuperview().inset(Layout.padding)
+            make.bottom.equalToSuperview().inset(Layout.padding)
             make.width.equalTo(flashImage.snp.height)
         }
     }

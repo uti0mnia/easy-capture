@@ -35,13 +35,15 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
     }
     
     private func initMetalView() {
-        metalView = MTKView(frame: self.view.bounds, device: device)
+        metalView = MTKView(frame: CGRect.zero, device: device)
         metalView?.delegate = self
         metalView?.framebufferOnly = true
         metalView?.colorPixelFormat = .bgra8Unorm // TODO: test with bgra32Unorm?
         metalView?.contentScaleFactor = UIScreen.main.scale
-        metalView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.insertSubview(metalView!, at: 0)
+        metalView?.snp.makeConstraints() { make in
+            make.top.bottom.left.right.equalToSuperview()
+        }
     }
     
     private func initMetalObjects() {

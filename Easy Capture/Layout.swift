@@ -25,5 +25,7 @@ class Layout {
     
     public static let optionViewHeight: CGFloat = 50
     
+    public static let optionButtonHeight: CGFloat = Layout.optionViewHeight - 2 * Layout.padding
+    
     public static let recordingViewSize = CGSize(width: 10, height: 10)
 }
