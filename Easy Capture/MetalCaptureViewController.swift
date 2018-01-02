@@ -18,6 +18,14 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
     private var metalView: MTKView?
     private var commandQueue: MTLCommandQueue?
     
+    private let desiredAspectRatio: CGFloat = 1080.0/1920.0 // TODO: fix this if changing video ratio
+    
+    private var metalViewRect: CGRect {
+        let height = max(view.bounds.height, view.bounds.width / desiredAspectRatio)
+        let width = max(view.bounds.width, view.bounds.height * desiredAspectRatio)
+        return CGRect.init(x: -(width - view.bounds.width) / 2, y: -(height - view.bounds.height) / 2, width: width, height: height)
+    }
+    
     private var device = MTLCreateSystemDefaultDevice()
     private var renderPipelineState: MTLRenderPipelineState?
     
@@ -35,15 +43,13 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
     }
     
     private func initMetalView() {
-        metalView = MTKView(frame: CGRect.zero, device: device)
+        metalView = MTKView(frame: metalViewRect, device: device)
         metalView?.delegate = self
         metalView?.framebufferOnly = true
         metalView?.colorPixelFormat = .bgra8Unorm // TODO: test with bgra32Unorm?
         metalView?.contentScaleFactor = UIScreen.main.scale
+        metalView?.autoresizingMask  = [.flexibleWidth, .flexibleHeight]
         view.insertSubview(metalView!, at: 0)
-        metalView?.snp.makeConstraints() { make in
-            make.top.bottom.left.right.equalToSuperview()
-        }
     }
     
     private func initMetalObjects() {
