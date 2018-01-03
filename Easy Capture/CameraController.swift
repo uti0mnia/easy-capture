@@ -25,13 +25,15 @@ class CameraController: NSObject, CameraCaptureControllerDelegate, VideoRecorder
     private(set) var isRecording = false
     
     private let cameraCaptureController = CameraCaptureController()
-    private lazy var videoRecorderController: VideoRecorderController = {
-        let recorder = VideoRecorderController()
-        recorder.delegate = self
-        return recorder
-    }()    
-    private lazy var metalBufferConverter = MetalBufferConverter()
-    private lazy var metalTextureConverter = MetalTextureConverter()
+    private let videoRecorderController = VideoRecorderController()
+    private let metalBufferConverter = MetalBufferConverter()
+    private let metalTextureConverter = MetalTextureConverter()
+    
+    override init() {
+        super.init()
+        
+        videoRecorderController.delegate = self
+    }
     
     public func startCaptureSession(completion: @escaping (Bool) -> Void) {
         guard cameraCaptureController.status != .running else {
