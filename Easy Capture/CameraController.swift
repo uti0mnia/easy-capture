@@ -100,6 +100,10 @@ class CameraController: NSObject, CameraCaptureControllerDelegate, VideoRecorder
         }
     }
     
+    public func changeZoom(percent: CGFloat) {
+        cameraCaptureController.zoom *= percent
+    }
+    
     // MARK: - CameraCaptureControllerDelegate
     
     func cameraCaptureController(_ cameraCaptureController: CameraCaptureController, didRecieveSampleBuffer sampleBuffer: CMSampleBuffer) {

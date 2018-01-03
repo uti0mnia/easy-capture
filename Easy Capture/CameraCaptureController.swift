@@ -43,6 +43,9 @@ class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
     
     private var backCamera: AVCaptureDevice?
     private var frontCamera: AVCaptureDevice?
+    private var currentCamera: AVCaptureDevice? {
+        return (currentCameraPosition == CameraPosition.back) ? backCamera : frontCamera
+    }
     
     private var currentCameraPosition: CameraPosition?
     
@@ -72,6 +75,26 @@ class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
     }
     
     public var flashMode = AVCaptureDevice.FlashMode.off
+    public var zoom: CGFloat = 1.0 {
+        didSet {
+            guard let currentCamera = currentCamera else {
+                print("No current camera for zoom")
+                return
+            }
+            if zoom > currentCamera.activeFormat.videoMaxZoomFactor {
+                zoom = currentCamera.activeFormat.videoMaxZoomFactor
+            } else if zoom < 1 {
+                zoom = 1
+            }
+            do {
+                try currentCamera.lockForConfiguration()
+                currentCamera.videoZoomFactor = zoom
+                currentCamera.unlockForConfiguration()
+            } catch {
+                print("Error locking config")
+            }
+        }
+    }
     
     private(set) var status: CameraCaptureStatus = .unknown
     

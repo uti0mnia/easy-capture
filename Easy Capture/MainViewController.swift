@@ -154,10 +154,21 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
         doubleTap.numberOfTapsRequired = 2
         view.addGestureRecognizer(doubleTap)
+        
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        pan.maximumNumberOfTouches = 1
+        view.addGestureRecognizer(pan)
     }
     
     @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
         cameraController.toggleCamera()
+    }
+    
+    @objc private func handlePan(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: view)
+        sender.setTranslation(CGPoint.zero, in: view)
+        let zoomPercent = 1 - translation.y / 120 // translation up is negative... 120 is just a value that works
+        cameraController.changeZoom(percent: zoomPercent)
     }
     
     @objc private func didTapRecordButton(_ sender: UITapGestureRecognizer) {
