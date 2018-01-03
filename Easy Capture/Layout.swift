@@ -28,4 +28,8 @@ class Layout {
     public static let optionButtonHeight: CGFloat = Layout.optionViewHeight - 2 * Layout.padding
     
     public static let recordingViewSize = CGSize(width: 10, height: 10)
+    
+    public static let zoomViewBorderWidth: CGFloat = 1.5
+    
+    public static let zoomViewSide: CGFloat = 35
 }

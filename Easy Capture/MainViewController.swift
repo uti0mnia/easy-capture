@@ -28,6 +28,7 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     private var cameraStatusBarView = CameraStatusBarView()
     
     private var flashView = UIView()
+    private var zoomView = ZoomView()
     
     lazy private var capturePreviewVC = CapturePreviewViewController()
     lazy private var videoPreviewVC = VideoPreviewViewController()
@@ -89,9 +90,10 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
     private func listenToVolumeButton(){
         let audioSession = AVAudioSession.sharedInstance()
         do {
+            try audioSession.setCategory(AVAudioSessionCategoryAmbient)
             try audioSession.setActive(true)
             audioSession.addObserver(self, forKeyPath: ObserverKeys.outputVolume.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-            let volumeView = MPVolumeView(frame: CGRect(x: -100, y: -100, width: 0, height: 0)) // TODO: better way to gtfo 
+            let volumeView = MPVolumeView(frame: CGRect(x: -100, y: -100, width: 0, height: 0)) // TODO: better way to gtfo
             view.addSubview(volumeView)
         } catch {
             print("Error setting audio session \(error.localizedDescription)")
@@ -115,6 +117,9 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         cameraStatusBarView.delegate = self
         cameraStatusBarView.backgroundColor = Colours.overlayBackgroundColour
         view.addSubview(cameraStatusBarView)
+        
+        zoomView.label.font = Fonts.zoomText
+        view.addSubview(zoomView)
         
         setCameraMode()
     }
@@ -148,6 +153,12 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
             make.centerX.equalToSuperview()
             make.height.width.equalTo(Layout.recordButtonSide)
         }
+        
+        zoomView.snp.makeConstraints() { make in
+            make.centerX.equalToSuperview()
+            make.height.width.equalTo(Layout.zoomViewSide)
+            make.bottom.equalTo(recordImage.snp.top).offset(-Layout.padding)
+        }
     }
     
     private func addGestures() {
@@ -168,7 +179,8 @@ class MainViewController: MetalCaptureViewController, CameraStatusBarViewDelegat
         let translation = sender.translation(in: view)
         sender.setTranslation(CGPoint.zero, in: view)
         let zoomPercent = 1 - translation.y / 120 // translation up is negative... 120 is just a value that works
-        cameraController.changeZoom(percent: zoomPercent)
+        let newZoom = cameraController.changeZoom(percent: zoomPercent)
+        zoomView.zoom = newZoom
     }
     
     @objc private func didTapRecordButton(_ sender: UITapGestureRecognizer) {

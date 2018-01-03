@@ -24,6 +24,8 @@ class Fonts {
         return UIFont.systemFont(ofSize: 16)
     }
     
+    public static let zoomText = UIFont.systemFont(ofSize: 11)
+    
     public static var toastMessage: UIFont {
         return UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.medium)
     }

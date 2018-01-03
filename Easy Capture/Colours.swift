@@ -21,4 +21,6 @@ class Colours {
     public static let flashColour = UIColor(hexString: "FEFEFE", withAlpha: 1)
     
     public static let overlayBackgroundColour = UIColor(hexString: "FEFEFE", withAlpha: 0.25)
+    
+    public static let zoomViewColour = UIColor(hexString: "F0F0F0")
 }

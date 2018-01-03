@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		358D1CFE1C098C19F590F1EC /* Pods_Easy_Capture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C5B792E75787714152DE69 /* Pods_Easy_Capture.framework */; };
+		C90CBFFA1FFC551E00EF1989 /* ZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90CBFF91FFC551E00EF1989 /* ZoomView.swift */; };
 		C918C1901FC2574800729BC9 /* CameraStatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918C18F1FC2574800729BC9 /* CameraStatusBarView.swift */; };
 		C92469561FBCBF6300C33A4A /* MetalTextureConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469551FBCBF6300C33A4A /* MetalTextureConverter.swift */; };
 		C92469591FBCD5CE00C33A4A /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92469571FBCD5CE00C33A4A /* ToastView.swift */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		7085153FEE2586528F25BF37 /* Pods-Easy Capture.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Easy Capture.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Easy Capture/Pods-Easy Capture.debug.xcconfig"; sourceTree = "<group>"; };
+		C90CBFF91FFC551E00EF1989 /* ZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomView.swift; sourceTree = "<group>"; };
 		C918C18F1FC2574800729BC9 /* CameraStatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStatusBarView.swift; sourceTree = "<group>"; };
 		C92469551FBCBF6300C33A4A /* MetalTextureConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalTextureConverter.swift; sourceTree = "<group>"; };
 		C92469571FBCD5CE00C33A4A /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				C96681B61FE71C870018AC32 /* Preview */,
 				C9A12E9C1FA3706C007FC5CF /* MainViewController.swift */,
 				C918C18F1FC2574800729BC9 /* CameraStatusBarView.swift */,
+				C90CBFF91FFC551E00EF1989 /* ZoomView.swift */,
 			);
 			name = "Camera View Controllers";
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				C924695A1FBCD5CE00C33A4A /* ToastManager.swift in Sources */,
 				C9A0EF071FA790AC008264F0 /* MetalBufferConverter.swift in Sources */,
 				C9A0EF0B1FA79EA2008264F0 /* MetalCameraShader.metal in Sources */,
+				C90CBFFA1FFC551E00EF1989 /* ZoomView.swift in Sources */,
 				C9285DCA1FA5696E00FD38FB /* CapturePreviewViewController.swift in Sources */,
 				C9C66B281FC0A36C006E9E25 /* VideoRecorderController.swift in Sources */,
 				C92469591FBCD5CE00C33A4A /* ToastView.swift in Sources */,
