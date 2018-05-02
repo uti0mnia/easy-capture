@@ -77,7 +77,7 @@ class VideoRecorderController: NSObject {
             return
         }
         
-        guard [AVAssetWriterStatus.unknown, AVAssetWriterStatus.writing].contains(assetWriter.status) else {
+        guard assetWriter.status == AVAssetWriterStatus.unknown || assetWriter.status ==  AVAssetWriterStatus.writing else {
             status = .error
             delegate?.videoRecorderController(self, didStopRecordingWithError: RecordingError.avAssetWriterWrongState)
             stopRecording()

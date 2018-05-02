@@ -3,12 +3,17 @@ PODS:
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
   - SnapKit (4.0.0)
-  - SwiftMessages (4.1.0)
+  - SwiftMessages (4.1.2)
 
 DEPENDENCIES:
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`, branch `wip/swift4`)
   - SnapKit (~> 4.0.0)
   - SwiftMessages
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - SnapKit
+    - SwiftMessages
 
 EXTERNAL SOURCES:
   ChameleonFramework:
@@ -23,8 +28,8 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
-  SwiftMessages: 1bacc783c8f10bdfdc57c14860cae8a1f1fa6591
+  SwiftMessages: d81f48c1f8b6bc1dbebdfffe11226f0344f937ca
 
 PODFILE CHECKSUM: e7eeefcb0025905dc1c377c1a0be8e8d22d5d888
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.0

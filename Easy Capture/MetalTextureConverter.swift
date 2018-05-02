@@ -23,7 +23,7 @@ class MetalTextureConverter: NSObject {
         
         // bitsPerComponent - using .bgra8Unorm so there are 8 bits per component
         // bitsPerPixel - using .bgra8Unorm so it's 4 components times 8 bits for each pixel
-        // space - suing .brga8Unorm so obviously we'll use RGB
+        // space - using .brga8Unorm so obviously we'll use RGB
         // decode - no need to decode the image pixels
         // shouldInterpolate - no need since the image was taken on the device so the picture shouldn't be lower resolution than the device
         // intent - default is fine for this
