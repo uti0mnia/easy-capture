@@ -36,7 +36,7 @@ class OrientationHelper: NSObject {
         case .landscapeRight:
             return CGAffineTransform.init(rotationAngle: CGFloat.pi / 2)
         default:
-            return CGAffineTransform()
+            return CGAffineTransform.identity
         }
     }
     

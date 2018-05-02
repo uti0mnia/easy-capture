@@ -108,23 +108,23 @@ class VideoRecorderController: NSObject {
             return
         }
         
-        let currentThreadCall = {
-            if self.status == VideoRecorderControllerStatus.recording {
-                self.delegate?.videoRecorderController(self, didFinishRecordingVideoAt: assetWriter.outputURL)
-            }
-        }
-        
         assetWriterQueue.async {
             videoAssetWriter.markAsFinished()
             assetWriter.finishWriting {
-                currentThreadCall()
-                
-                self.reset()
+                DispatchQueue.main.async {
+                    print(self.status)
+                    if self.status == .recording {
+                        self.delegate?.videoRecorderController(self, didFinishRecordingVideoAt: assetWriter.outputURL)
+                    }
+                    
+                    self.reset()
+                }
             }
         }
     }
     
     private func reset() {
+        print("reset called")
         videoAssetWriter = nil
         assetWriter = nil
         

@@ -167,7 +167,7 @@ class CameraCaptureController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
     
     private func initCaptureDevices() throws {
         let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
-        let cameras = session.devices.flatMap({ $0 })
+        let cameras = session.devices.compactMap({ $0 })
         
         if cameras.isEmpty {
             print("No capture devices")

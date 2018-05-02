@@ -30,7 +30,9 @@ class PermissionManager {
     public func photoPermission(completion: @escaping (Bool) -> Void) {
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.notDetermined {
             PHPhotoLibrary.requestAuthorization() { status in
-                completion(status == .authorized)
+                DispatchQueue.main.async {
+                    completion(status == .authorized)
+                }
             }
         } else {
             completion(PHPhotoLibrary.authorizationStatus() == .authorized)

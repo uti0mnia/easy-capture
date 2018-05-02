@@ -51,19 +51,20 @@ class VideoPreviewViewController: PreviewViewController {
             return
         }
         
-        PermissionManager.shared.photoPermission() { granted in
-            PHPhotoLibrary.shared().performChanges({
-                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url.absoluteURL)
-            }) { success, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                    completion(false)
-                } else {
-                    completion(true)
-                }
-            }
+        let currentThreadCompletion: (Bool) -> Void = { success in
+            completion(success)
         }
         
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url.absoluteURL)
+        }) { success, error in
+            if let error = error {
+                print(error.localizedDescription)
+                currentThreadCompletion(false)
+            } else {
+                currentThreadCompletion(true)
+            }
+        }
     }
     
     private func addObservers() {
