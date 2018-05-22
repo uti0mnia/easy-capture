@@ -39,7 +39,9 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
     override func loadView() {
         super.loadView()
         
-        assert(device != nil, "Failed to create default Metal Device")
+        if device == nil {
+            handleNoDevice()
+        }
     }
     
     private func initMetalView() {
@@ -69,11 +71,19 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
             try renderPipelineState = device.makeRenderPipelineState(descriptor: pipelineDescriptor)
         }
         catch {
-            assertionFailure("Failed creating a render state pipeline. Can't render the texture without one.")
+            handleNoRenderPipelineDescriptor()
             return
         }
         
         commandQueue = device.makeCommandQueue()
+    }
+    
+    public func handleNoDevice() {
+        // For sublcassing.
+    }
+    
+    public func handleNoRenderPipelineDescriptor() {
+        
     }
     
     public func displayError(message: String?) {
@@ -95,7 +105,7 @@ class MetalCaptureViewController: UIViewController, MTKViewDelegate {
     // MARK: - MTKViewDelegate
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        // nothing.
+        // Do nothing.
     }
     
     func draw(in view: MTKView) {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,7 +15,7 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="Easy_Capture" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -29,11 +29,11 @@
             <objects>
                 <viewController id="w8r-WE-JxM" customClass="PreviewViewController" customModule="Easy_Capture" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kwj-y7-8W3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="naT-Il-TM2">
-                                <rect key="frame" x="8" y="619" width="40" height="40"/>
+                                <rect key="frame" x="8" y="730" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="UL0-tq-S2M"/>
                                     <constraint firstAttribute="height" constant="40" id="rJX-bs-dFM"/>
@@ -41,7 +41,7 @@
                                 <state key="normal" image="cancel"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGl-rX-rD8">
-                                <rect key="frame" x="327" y="619" width="40" height="40"/>
+                                <rect key="frame" x="327" y="730" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="nK7-6x-jQI"/>
                                     <constraint firstAttribute="height" constant="40" id="oNw-PL-owx"/>
@@ -61,11 +61,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t7L-yD-Krm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1354" y="133"/>
+            <point key="canvasLocation" x="990" y="134"/>
         </scene>
     </scenes>
     <resources>
-        <image name="cancel" width="60" height="60"/>
+        <image name="cancel" width="40" height="40"/>
         <image name="save" width="40" height="40"/>
     </resources>
 </document>

@@ -94,6 +94,8 @@ class PreviewViewController: UIViewController {
     
     private func hideActivityIndicator() {
         activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
+        
         saveButton?.isEnabled = true
     }
     
